@@ -1,7 +1,7 @@
 {
   /* This TypeScript project config describes the environment that
    * Convex functions run in and is used to typecheck them.
-   * You can modify it, but some settings are required to use Convex.
+   * You can modify it, but some settings are required by Convex.
    */
   "compilerOptions": {
     /* These settings are not required by Convex and can be modified. */
@@ -15,6 +15,7 @@
     /* These compiler options are required by Convex */
     "target": "ESNext",
     "lib": ["ES2021", "dom"],
+    "types": ["node"],
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "isolatedModules": true,

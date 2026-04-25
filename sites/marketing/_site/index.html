@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Your all-in-one gym companion for calculating percentages, converting weights, and timing your workouts" />
+    <title>Gym Butler | Gym Butler</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background-color: #0f0f0f;
+        color: #fff;
+        line-height: 1.6;
+      }
+      body {
+        margin: 0;
+        padding: 1.5rem;
+        max-width: 60ch;
+        margin: 0 auto;
+      }
+      a {
+        color: #fc9a2e;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+      a:hover {
+        opacity: 0.8;
+      }
+      h1, h2, h3 {
+        line-height: 1.2;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .logo {
+        width: 50px;
+        height: 50px;
+      }
+      .title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin: 0;
+        background: linear-gradient(135deg, #fc9a2e, #e40b3f);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .download-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin: 2rem 0;
+      }
+      .download-buttons img {
+        height: 50px;
+      }
+      .footer {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #333;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+        font-size: 0.875rem;
+      }
+      .footer a {
+        color: #fff;
+      }
+      .prose {
+        max-width: 65ch;
+      }
+      .prose h2 {
+        margin-top: 2rem;
+        color: #fc9a2e;
+      }
+      .prose p {
+        margin-bottom: 1rem;
+      }
+      .back-link {
+        display: inline-block;
+        margin-bottom: 1rem;
+        color: #666;
+      }
+      .features {
+        display: grid;
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+      .feature {
+        background: #1a1a1a;
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+      .feature h3 {
+        margin: 0 0 0.5rem 0;
+        color: #fc9a2e;
+      }
+      .feature p {
+        margin: 0;
+        color: #aaa;
+      }
+      .nav {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .nav a {
+        color: #666;
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/terms/">Terms</a>
+      <a href="/privacy/">Privacy</a>
+    </nav>
+    
+<header class="header">
+  <img src="/assets/logo.svg" alt="GymButler logo" class="logo" />
+  <h1 class="title">Gym Butler</h1>
+</header>
+
+<main class="prose">
+  <p>
+    A one-stop app for calculating percentages for weights, converting between kilograms and pounds, a stopwatch, and a timer.
+  </p>
+
+  <div class="features">
+    <div class="feature">
+      <h3>Weight Percentages</h3>
+      <p>Calculate training percentages from your working weight with customizable ranges</p>
+    </div>
+    <div class="feature">
+      <h3>Weight Converter</h3>
+      <p>Convert between kilograms and pounds instantly with handy conversion tips</p>
+    </div>
+    <div class="feature">
+      <h3>Timer</h3>
+      <p>Countdown timer with round tracking for interval training</p>
+    </div>
+    <div class="feature">
+      <h3>Stopwatch</h3>
+      <p>Track rest times with lap functionality and statistics</p>
+    </div>
+  </div>
+
+  <div class="download-buttons">
+    <a href="https://apps.apple.com/us/app/gymbutler/id1613277271">
+      <img src="/assets/app-store-badge.svg" alt="Download on the App Store" />
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.gymbutler">
+      <img src="/assets/google-play-badge.png" alt="Get it on Google Play" />
+    </a>
+    <a href="https://app.gymbutler.cavender.io">
+      <img src="/assets/web-badge.svg" alt="Use Web App" style="height: 50px; background: #1a1a1a; padding: 8px 16px; border-radius: 8px;" />
+    </a>
+  </div>
+</main>
+    <footer class="footer">
+      <a href="/terms/">Terms & Conditions</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="https://cavender.io">© Stephen Cavender</a>
+    </footer>
+  </body>
+</html>

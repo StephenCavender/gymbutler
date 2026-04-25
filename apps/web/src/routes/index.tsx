@@ -1,49 +1,78 @@
-import { api } from "@gymbutler/backend/convex/_generated/api";
-import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "convex/react";
+import { Link } from "@tanstack/react-router";
+import { Card, CardDescription, CardHeader, CardTitle } from "@gymbutler/ui/components/card";
 
-export const Route = createFileRoute("/")({
-  component: HomeComponent,
-});
+const features = [
+  {
+    title: "Weight Percentages",
+    description: "Calculate training percentages from your working weight",
+    href: "/percentages",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M16 3H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z"/>
+        <path d="M12 8v8"/><path d="m9 12 3-3 3 3"/>
+      </svg>
+    ),
+  },
+  {
+    title: "Weight Converter",
+    description: "Convert between kilograms and pounds instantly",
+    href: "/convert",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M7 16V4M7 4L3 8M7 4L11 8"/>
+        <path d="M17 8V20M17 20L21 16M17 20L13 16"/>
+      </svg>
+    ),
+  },
+  {
+    title: "Timer",
+    description: "Countdown timer with round tracking",
+    href: "/timer",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+    ),
+  },
+  {
+    title: "Stopwatch",
+    description: "Track your rest times with lap functionality",
+    href: "/stopwatch",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="13" r="8"/>
+        <path d="M12 9v4l2 2"/>
+        <path d="M5 3 2 6"/><path d="M22 6l-3-3"/><path d="M6 19l-2 2"/><path d="M18 19l-2 2"/>
+      </svg>
+    ),
+  },
+];
 
-const TITLE_TEXT = `
- ██████╗ ███████╗████████╗████████╗███████╗██████╗
- ██╔══██╗██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝██╔══██╗
- ██████╔╝█████╗     ██║      ██║   █████╗  ██████╔╝
- ██╔══██╗██╔══╝     ██║      ██║   ██╔══╝  ██╔══██╗
- ██████╔╝███████╗   ██║      ██║   ███████╗██║  ██║
- ╚═════╝ ╚══════╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
-
- ████████╗    ███████╗████████╗ █████╗  ██████╗██╗  ██╗
- ╚══██╔══╝    ██╔════╝╚══██╔══╝██╔══██╗██╔════╝██║ ██╔╝
-    ██║       ███████╗   ██║   ███████║██║     █████╔╝
-    ██║       ╚════██║   ██║   ██╔══██║██║     ██╔═██╗
-    ██║       ███████║   ██║   ██║  ██║╚██████╗██║  ██╗
-    ╚═╝       ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
- `;
-
-function HomeComponent() {
-  const healthCheck = useQuery(api.healthCheck.get);
-
+export default function HomePage() {
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-2">
-      <pre className="overflow-x-auto font-mono text-sm">{TITLE_TEXT}</pre>
-      <div className="grid gap-6">
-        <section className="rounded-lg border p-4">
-          <h2 className="mb-2 font-medium">API Status</h2>
-          <div className="flex items-center gap-2">
-            <div
-              className={`h-2 w-2 rounded-full ${healthCheck === "OK" ? "bg-green-500" : healthCheck === undefined ? "bg-orange-400" : "bg-red-500"}`}
-            />
-            <span className="text-sm text-muted-foreground">
-              {healthCheck === undefined
-                ? "Checking..."
-                : healthCheck === "OK"
-                  ? "Connected"
-                  : "Error"}
-            </span>
-          </div>
-        </section>
+    <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="mb-12 text-center">
+        <h1 className="mb-4 text-4xl font-bold">Gym Butler</h1>
+        <p className="text-lg text-muted-foreground">
+          Your all-in-one gym companion for calculating percentages, converting weights, and timing your workouts
+        </p>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {features.map((feature) => (
+          <Link key={feature.href} to={feature.href} className="block">
+            <Card className="h-full transition-all hover:border-primary hover:shadow-md">
+              <CardHeader>
+                <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  {feature.icon}
+                </div>
+                <CardTitle>{feature.title}</CardTitle>
+                <CardDescription>{feature.description}</CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+        ))}
       </div>
     </div>
   );
