@@ -8,7 +8,6 @@ const navLinks = [
   { to: "/convert", label: "Convert" },
   { to: "/timer", label: "Timer" },
   { to: "/stopwatch", label: "Stopwatch" },
-  { to: "/about", label: "About" },
   { to: "/settings", label: "Settings" },
 ] as const;
 
