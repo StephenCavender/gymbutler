@@ -4,7 +4,6 @@ import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/timer")({
   component: TimerPage,
@@ -17,7 +16,6 @@ interface Round {
 }
 
 function TimerPage() {
-  const { t } = useTranslation();
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(5);
   const [seconds, setSeconds] = useState(0);
@@ -117,13 +115,13 @@ function TimerPage() {
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
-      <h1 className="mb-6 text-3xl font-bold">{t('timer.title')}</h1>
+      <h1 className="mb-6 text-3xl font-bold">Timer</h1>
 
       <Card className="p-6">
         <div className="space-y-6">
           {!isRunning && timeLeft === totalTargetSeconds && rounds.length === 0 && (
             <div className="space-y-4">
-              <Label>{t('timer.setDuration')}</Label>
+              <Label>Set Duration</Label>
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Input
@@ -135,7 +133,7 @@ function TimerPage() {
                     className="text-center"
                   />
                   <span className="block text-center text-sm text-muted-foreground">
-                    {t('timer.hours')}
+                    Hours
                   </span>
                 </div>
                 <div className="space-y-2">
@@ -148,7 +146,7 @@ function TimerPage() {
                     className="text-center"
                   />
                   <span className="block text-center text-sm text-muted-foreground">
-                    {t('timer.minutes')}
+                    Minutes
                   </span>
                 </div>
                 <div className="space-y-2">
@@ -161,7 +159,7 @@ function TimerPage() {
                     className="text-center"
                   />
                   <span className="block text-center text-sm text-muted-foreground">
-                    {t('timer.seconds')}
+                    Seconds
                   </span>
                 </div>
               </div>
@@ -180,7 +178,7 @@ function TimerPage() {
             </div>
             {isRunning && currentRoundStart !== null && (
               <p className="mt-2 text-sm text-muted-foreground">
-                {t('timer.currentRound', { current: rounds.length + 1 })}
+                Round {rounds.length + 1}: {formatTime(currentRoundDuration)}
               </p>
             )}
           </div>
@@ -189,36 +187,36 @@ function TimerPage() {
             {!isRunning ? (
               <Button onClick={startTimer} size="lg" className="min-w-[120px]">
                 {timeLeft === totalTargetSeconds && rounds.length === 0
-                  ? t('timer.start')
-                  : t('timer.resume')}
+                  ? "Start"
+                  : "Resume"}
               </Button>
             ) : (
               <Button onClick={pauseTimer} size="lg" variant="outline" className="min-w-[120px]">
-                {t('timer.pause')}
+                Pause
               </Button>
             )}
 
             {rounds.length > 0 && (
               <Button onClick={recordRound} variant="secondary" size="lg">
-                {t('timer.nextRound')}
+                Round
               </Button>
             )}
 
             <Button onClick={resetTimer} variant="destructive" size="lg">
-              {t('timer.reset')}
+              Reset
             </Button>
           </div>
 
           {rounds.length > 0 && (
             <div className="mt-6 space-y-2">
-              <h3 className="font-medium">{t('timer.rounds')}</h3>
+              <h3 className="font-medium">Rounds</h3>
               <div className="space-y-1">
                 {rounds.map((round) => (
                   <div
                     key={round.roundNumber}
                     className="flex justify-between rounded bg-muted/50 px-3 py-2 text-sm"
                   >
-                    <span>{t('timer.round')} {round.roundNumber}</span>
+                    <span>Round {round.roundNumber}</span>
                     <span className="font-mono tabular-nums">
                       {formatTime(round.durationSeconds)}
                     </span>
@@ -229,7 +227,7 @@ function TimerPage() {
               {rounds.length > 1 && (
                 <div className="mt-2 rounded bg-muted/30 px-3 py-2 text-sm">
                   <div className="flex justify-between">
-                    <span>{t('timer.average')}</span>
+                    <span>Average</span>
                     <span className="font-mono tabular-nums">
                       {formatTime(
                         Math.round(
@@ -240,7 +238,7 @@ function TimerPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{t('timer.best')}</span>
+                    <span>Best</span>
                     <span className="font-mono tabular-nums">
                       {formatTime(
                         Math.min(...rounds.map((r) => r.durationSeconds))
@@ -248,7 +246,7 @@ function TimerPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>{t('timer.worst')}</span>
+                    <span>Worst</span>
                     <span className="font-mono tabular-nums">
                       {formatTime(
                         Math.max(...rounds.map((r) => r.durationSeconds))
@@ -257,12 +255,6 @@ function TimerPage() {
                   </div>
                 </div>
               )}
-            </div>
-          )}
-
-          {timeLeft === 0 && rounds.length > 0 && (
-            <div className="text-center text-lg font-semibold text-destructive">
-              {t('timer.finished')}
             </div>
           )}
         </div>

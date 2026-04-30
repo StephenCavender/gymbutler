@@ -4,14 +4,12 @@ import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/percentages")({
   component: PercentagesPage,
 });
 
 function PercentagesPage() {
-  const { t } = useTranslation();
   const [weight, setWeight] = useState("");
   const [unit, setUnit] = useState<"kg" | "lbs">("kg");
   const [min, setMin] = useState(50);
@@ -23,25 +21,25 @@ function PercentagesPage() {
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
-      <h1 className="mb-6 text-3xl font-bold">{t('percentages.title')}</h1>
+      <h1 className="mb-6 text-3xl font-bold">Weight Percentages</h1>
 
       <Card className="p-6">
         <div className="space-y-4">
           <div className="flex gap-4">
             <div className="flex-1 space-y-2">
-              <Label htmlFor="weight">{t('percentages.weight')} ({unit})</Label>
+              <Label htmlFor="weight">Weight ({unit})</Label>
               <Input
                 id="weight"
                 type="number"
                 inputMode="decimal"
-                placeholder={`${t('percentages.enterWeight')} ${unit}`}
+                placeholder={`Enter weight in ${unit}`}
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 className="text-lg"
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('percentages.unit')}</Label>
+              <Label>Unit</Label>
               <div className="flex rounded-md border">
                 <button
                   type="button"
@@ -52,7 +50,7 @@ function PercentagesPage() {
                       : "hover:bg-muted"
                   }`}
                 >
-                  {t('percentages.kilograms')}
+                  kg
                 </button>
                 <button
                   type="button"
@@ -63,7 +61,7 @@ function PercentagesPage() {
                       : "hover:bg-muted"
                   }`}
                 >
-                  {t('percentages.pounds')}
+                  lbs
                 </button>
               </div>
             </div>
@@ -71,7 +69,7 @@ function PercentagesPage() {
 
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="min">{t('settings.minimumPercentage')}</Label>
+              <Label htmlFor="min">Min %</Label>
               <Input
                 id="min"
                 type="number"
@@ -80,7 +78,7 @@ function PercentagesPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="max">{t('settings.maximumPercentage')}</Label>
+              <Label htmlFor="max">Max %</Label>
               <Input
                 id="max"
                 type="number"
@@ -89,7 +87,7 @@ function PercentagesPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="step">{t('settings.increment')}</Label>
+              <Label htmlFor="step">Step</Label>
               <Input
                 id="step"
                 type="number"
@@ -122,12 +120,6 @@ function PercentagesPage() {
             ))}
           </div>
         </Card>
-      )}
-
-      {weightNum === 0 && (
-        <div className="mt-6 text-center text-muted-foreground">
-          {t('percentages.noData')}
-        </div>
       )}
     </div>
   );
