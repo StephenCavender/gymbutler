@@ -1,51 +1,72 @@
 ---
-layout: base.njk
-title: Gym Butler
-description: Your all-in-one gym companion for calculating percentages, converting weights, and timing your workouts
+layout: layout.njk
+title: GymButler - Weightlifting percentage tables, at a glance.
+description: Weightlifting percentage tables, at a glance. Everything you need for your lifting session.
 ---
 
-<header class="header">
-  <img src="/assets/logo.svg" alt="GymButler logo" class="logo" />
-  <h1 class="title">Gym Butler</h1>
-</header>
-
-<main class="prose">
-  <p>
-    A one-stop app for calculating percentages for weights, converting between kilograms and pounds, a stopwatch, and a timer.
-  </p>
-
-  <div class="features">
-    <div class="feature">
-      <h3>Weight Percentages</h3>
-      <p>Calculate training percentages from your working weight with customizable ranges</p>
+<main class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <img src="/assets/logo.svg" alt="GymButler" class="hero-logo" />
+      <h1>GymButler</h1>
+      <p class="tagline">Weightlifting percentage tables, at a glance.</p>
+      <p class="description">
+        Calculate percentages, convert weights, and time your workouts with precision.
+      </p>
+      <div class="cta-group">
+        <a href="https://app.gymbutler.cavender.io" class="btn btn-primary">Try the Web App</a>
+        <a href="#features" class="btn btn-secondary">View Features</a>
+      </div>
     </div>
-    <div class="feature">
-      <h3>Weight Converter</h3>
-      <p>Convert between kilograms and pounds instantly with handy conversion tips</p>
+    <div class="hero-image">
+      <img src="/assets/screen.png" alt="GymButler App Screenshot" />
     </div>
-    <div class="feature">
-      <h3>Timer</h3>
-      <p>Countdown timer with round tracking for interval training</p>
-    </div>
-    <div class="feature">
-      <h3>Stopwatch</h3>
-      <p>Track rest times with lap functionality and statistics</p>
-    </div>
-  </div>
-
-  <div class="download-buttons">
-    <a href="https://apps.apple.com/us/app/gymbutler/id1613277271">
-      <img src="/assets/app-store-badge.svg" alt="Download on the App Store" />
-    </a>
-    <a href="https://play.google.com/store/apps/details?id=com.gymbutler">
-      <img src="/assets/google-play-badge.png" alt="Get it on Google Play" />
-    </a>
-    <a href="https://app.gymbutler.cavender.io">
-      <img src="/assets/web-badge.svg" alt="Use Web App" style="height: 50px; background: #1a1a1a; padding: 8px 16px; border-radius: 8px;" />
-    </a>
-  </div>
-
-  <div class="screenshot" style="margin: 3rem 0; text-align: center;">
-    <img src="/assets/screen.png" alt="GymButler app screenshot" style="max-width: 300px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
   </div>
 </main>
+
+<section id="features" class="features">
+  <div class="container">
+    <h2>Features</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 3H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z"/>
+            <path d="M12 8v8"/><path d="m9 12 3-3 3 3"/>
+          </svg>
+        </div>
+        <h3>Percentages</h3>
+        <p>Calculate training percentages from your working weight instantly.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 16V4M7 4L3 8M7 4L11 8"/>
+            <path d="M17 8V20M17 20L21 16M17 20L13 16"/>
+          </svg>
+        </div>
+        <h3>Convert</h3>
+        <p>Convert between kilograms and pounds with a simple tap.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3>Timer</h3>
+        <p>Countdown timer with round tracking for interval training.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/>
+            <path d="M5 3 2 6"/><path d="M22 6l-3-3"/><path d="M6 19l-2 2"/><path d="M18 19l-2 2"/>
+          </svg>
+        </div>
+        <h3>Stopwatch</h3>
+        <p>Track rest times with lap functionality and statistics.</p>
+      </div>
+    </div>
+  </div>
+</section>
