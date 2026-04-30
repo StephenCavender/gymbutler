@@ -9,127 +9,62 @@
     <link rel="stylesheet" href="/assets/main.css" />
   </head>
   <body>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="/terms/">Terms</a>
+      <a href="/privacy/">Privacy</a>
+    </nav>
     
-<div class="hero">
-  <div class="container">
-    <div class="hero-badge">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M16 3H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z"/>
-        <path d="M12 8v8"/><path d="m9 12 3-3 3 3"/>
-      </svg>
-      Gym Butler v2.0 - Modern Rebuild
+<header class="header">
+  <img src="/assets/logo.svg" alt="GymButler logo" class="logo" />
+  <h1 class="title">Gym Butler</h1>
+</header>
+
+<main class="prose">
+  <p>
+    A one-stop app for calculating percentages for weights, converting between kilograms and pounds, a stopwatch, and a timer.
+  </p>
+
+  <div class="features">
+    <div class="feature">
+      <h3>Weight Percentages</h3>
+      <p>Calculate training percentages from your working weight with customizable ranges</p>
     </div>
-    <h1>Gym Butler</h1>
-    <p class="hero-subtitle">
-      Your all-in-one gym companion for calculating percentages, converting weights, and timing your workouts
-    </p>
-    <div class="hero-actions">
-      <a href="https://app.gymbutler.cavender.io" class="btn-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M22 12h-4l-3 3 3 3"/>
-          <path d="M2 12h4l3-3-3-3"/>
-        </svg>
-        Open Web App
-      </a>
-      <a href="#features" class="btn-secondary">
-        Learn More
-      </a>
+    <div class="feature">
+      <h3>Weight Converter</h3>
+      <p>Convert between kilograms and pounds instantly with handy conversion tips</p>
+    </div>
+    <div class="feature">
+      <h3>Timer</h3>
+      <p>Countdown timer with round tracking for interval training</p>
+    </div>
+    <div class="feature">
+      <h3>Stopwatch</h3>
+      <p>Track rest times with lap functionality and statistics</p>
     </div>
   </div>
-</div>
 
-<div class="container">
-  <!-- Features Section -->
-  <section id="features" class="features-section">
-    <h2 class="section-title">Features</h2>
-    <p class="section-subtitle">Everything you need to optimize your training sessions</p>
-    
-    <div class="features">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M16 3H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z"/>
-            <path d="M12 8v8"/><path d="m9 12 3-3 3 3"/>
-          </svg>
-        </div>
-        <h3>Weight Percentages</h3>
-        <p>Calculate training percentages from your working weight with customizable ranges (min/max/step).</p>
-      </div>
+  <div class="download-buttons">
+    <a href="https://apps.apple.com/us/app/gymbutler/id1613277271">
+      <img src="/assets/app-store-badge.svg" alt="Download on the App Store" />
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=com.gymbutler">
+      <img src="/assets/google-play-badge.png" alt="Get it on Google Play" />
+    </a>
+    <a href="https://app.gymbutler.cavender.io">
+      <img src="/assets/web-badge.svg" alt="Use Web App" style="height: 50px; background: #1a1a1a; padding: 8px 16px; border-radius: 8px;" />
+    </a>
+  </div>
 
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M7 16V4M7 4L3 8M7 4L11 8"/>
-            <path d="M17 8V20M17 20L21 16M17 20L13 16"/>
-          </svg>
-        </div>
-        <h3>Weight Converter</h3>
-        <p>Convert between kilograms and pounds instantly with handy conversion tips.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
-        </div>
-        <h3>Timer</h3>
-        <p>Countdown timer with round tracking for interval training. View best, worst, and average times.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="13" r="8"/>
-            <path d="M12 9v4l2 2"/>
-            <path d="M5 3 2 6"/><path d="M22 6l-3-3"/><path d="M6 19l-2 2"/><path d="M18 19l-2 2"/>
-          </svg>
-        </div>
-        <h3>Stopwatch</h3>
-        <p>Track rest times with lap functionality and statistics. Perfect for optimizing rest periods.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Screenshot Section -->
-  <section class="screenshot-section">
-    <h2 class="section-title">Simple & Powerful</h2>
-    <p class="section-subtitle">Clean interface designed for quick access during your workout</p>
-    <div class="screenshot-wrapper">
-      <img src="/assets/screen.png" alt="GymButler app screenshot" />
-    </div>
-  </section>
-
-  <!-- Download Section -->
-  <section class="download-section">
-    <h2 class="section-title">Available On</h2>
-    <p class="section-subtitle">Train anywhere, on any device</p>
-    <div class="download-buttons">
-      <a href="https://apps.apple.com/us/app/gymbutler/id1613277271">
-        <img src="/assets/app-store-badge.svg" alt="Download on the App Store" />
-      </a>
-      <a href="https://play.google.com/store/apps/details?id=com.gymbutler">
-        <img src="/assets/google-play-badge.png" alt="Get it on Google Play" />
-      </a>
-      <a href="https://app.gymbutler.cavender.io" class="web-app-badge">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M2 12h20" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-        </svg>
-        Web App
-      </a>
-    </div>
-  </section>
-</div>
-
-<footer class="footer">
-  <a href="/terms/">Terms & Conditions</a>
-  <a href="/privacy/">Privacy</a>
-  <a href="/about/">About</a>
-  <span class="footer-brand">&copy; Stephen Cavender</span>
-</footer>
+  <div class="screenshot" style="margin: 3rem 0; text-align: center;">
+    <img src="/assets/screen.png" alt="GymButler app screenshot" style="max-width: 300px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);" />
+  </div>
+</main>
+    <footer class="footer">
+      <a href="/terms/">Terms & Conditions</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="https://cavender.io">© Stephen Cavender</a>
+    </footer>
   </body>
 </html>
