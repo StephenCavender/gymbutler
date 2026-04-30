@@ -1,53 +1,59 @@
-import { api } from "@gymbutler/backend/convex/_generated/api";
 import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery, useMutation } from "convex/react";
 import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/settings")({
   component: SettingsPage,
 });
 
-function SettingsPage() {
-  const settings = useQuery(api.settings.get);
-  const upsertSettings = useMutation(api.settings.upsert);
+const STORAGE_KEYS = {
+  theme: "gymbutler-theme",
+  locale: "gymbutler-locale",
+  weightUnit: "gymbutler-weight-unit",
+  percentagesMin: "gymbutler-pct-min",
+  percentagesMax: "gymbutler-pct-max",
+  percentagesStep: "gymbutler-pct-step",
+};
 
-  const [theme, setTheme] = useState("system");
+function SettingsPage() {
+  const [theme, setTheme] = useState("dark");
   const [locale, setLocale] = useState("en");
   const [weightUnit, setWeightUnit] = useState("kg");
   const [percentagesMin, setPercentagesMin] = useState(50);
   const [percentagesMax, setPercentagesMax] = useState(100);
   const [percentagesStep, setPercentagesStep] = useState(5);
-  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (settings) {
-      setTheme(settings.theme ?? "system");
-      setLocale(settings.locale ?? "en");
-      setWeightUnit(settings.weightUnit ?? "kg");
-      setPercentagesMin(settings.percentagesMin ?? 50);
-      setPercentagesMax(settings.percentagesMax ?? 100);
-      setPercentagesStep(settings.percentagesStep ?? 5);
-    }
-  }, [settings]);
+    const savedTheme = localStorage.getItem(STORAGE_KEYS.theme);
+    if (savedTheme) setTheme(savedTheme);
 
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      await upsertSettings({
-        theme,
-        locale,
-        weightUnit,
-        percentagesMin,
-        percentagesMax,
-        percentagesStep,
-      });
-    } finally {
-      setIsSaving(false);
-    }
+    const savedLocale = localStorage.getItem(STORAGE_KEYS.locale);
+    if (savedLocale) setLocale(savedLocale);
+
+    const savedUnit = localStorage.getItem(STORAGE_KEYS.weightUnit);
+    if (savedUnit) setWeightUnit(savedUnit);
+
+    const savedMin = localStorage.getItem(STORAGE_KEYS.percentagesMin);
+    if (savedMin) setPercentagesMin(parseInt(savedMin));
+
+    const savedMax = localStorage.getItem(STORAGE_KEYS.percentagesMax);
+    if (savedMax) setPercentagesMax(parseInt(savedMax));
+
+    const savedStep = localStorage.getItem(STORAGE_KEYS.percentagesStep);
+    if (savedStep) setPercentagesStep(parseInt(savedStep));
+  }, []);
+
+  const handleSave = () => {
+    localStorage.setItem(STORAGE_KEYS.theme, theme);
+    localStorage.setItem(STORAGE_KEYS.locale, locale);
+    localStorage.setItem(STORAGE_KEYS.weightUnit, weightUnit);
+    localStorage.setItem(STORAGE_KEYS.percentagesMin, percentagesMin.toString());
+    localStorage.setItem(STORAGE_KEYS.percentagesMax, percentagesMax.toString());
+    localStorage.setItem(STORAGE_KEYS.percentagesStep, percentagesStep.toString());
+    alert("Settings saved!");
   };
 
   return (
@@ -173,8 +179,8 @@ function SettingsPage() {
           </div>
         </Card>
 
-        <Button onClick={handleSave} disabled={isSaving} className="w-full">
-          {isSaving ? "Saving..." : "Save Settings"}
+        <Button onClick={handleSave} className="w-full">
+          Save Settings
         </Button>
       </div>
     </div>

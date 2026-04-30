@@ -1,10 +1,8 @@
-import { api } from "@gymbutler/backend/convex/_generated/api";
 import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
-import { Authenticated, useQuery, useMutation } from "convex/react";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 export const Route = createFileRoute("/timer")({
@@ -18,8 +16,6 @@ interface Round {
 }
 
 function TimerPage() {
-  const logSession = useMutation(api.timer.log);
-
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(5);
   const [seconds, setSeconds] = useState(0);
@@ -111,17 +107,6 @@ function TimerPage() {
       return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
     }
     return `${m}:${s.toString().padStart(2, "0")}`;
-  };
-
-  const handleSave = async () => {
-    if (sessionStart !== null) {
-      const totalElapsed = Math.floor((Date.now() - sessionStart) / 1000);
-      await logSession({
-        totalSeconds: totalElapsed,
-        rounds,
-        status: timeLeft === 0 ? "completed" : "cancelled",
-      });
-    }
   };
 
   const currentRoundDuration = currentRoundStart
@@ -272,12 +257,6 @@ function TimerPage() {
               )}
             </div>
           )}
-
-          <Authenticated>
-            <Button onClick={handleSave} variant="outline" className="w-full">
-              Save to History
-            </Button>
-          </Authenticated>
         </div>
       </Card>
     </div>

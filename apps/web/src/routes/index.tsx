@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Card, CardDescription, CardHeader, CardTitle } from "@gymbutler/ui/components/card";
+import { createFileRoute } from "@tanstack/react-router";
 
 const features = [
   {
@@ -49,7 +50,11 @@ const features = [
   },
 ];
 
-export default function HomePage() {
+export const Route = createFileRoute("/")({
+  component: HomePage,
+});
+
+function HomePage() {
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">
       <div className="mb-12 text-center">

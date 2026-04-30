@@ -1,8 +1,6 @@
-import { api } from "@gymbutler/backend/convex/_generated/api";
 import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { createFileRoute } from "@tanstack/react-router";
-import { Authenticated, useMutation } from "convex/react";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 export const Route = createFileRoute("/stopwatch")({
@@ -17,8 +15,6 @@ interface Lap {
 }
 
 function StopwatchPage() {
-  const logSession = useMutation(api.stopwatch.log);
-
   const [isRunning, setIsRunning] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
   const [laps, setLaps] = useState<Lap[]>([]);
@@ -94,21 +90,6 @@ function StopwatchPage() {
       return totalTime - laps[laps.length - 1].totalTimeSeconds;
     }
     return totalTime;
-  };
-
-  const handleSave = async () => {
-    if (sessionStart !== null) {
-      await logSession({
-        laps: laps.map((lap) => ({
-          lapNumber: lap.lapNumber,
-          lapTimeSeconds: lap.lapTimeSeconds,
-          totalTimeSeconds: lap.totalTimeSeconds,
-          timestamp: lap.timestamp,
-        })),
-        totalTimeSeconds: totalTime,
-        status: totalTime > 0 ? "completed" : "cancelled",
-      });
-    }
   };
 
   const getLapStats = () => {
@@ -217,12 +198,6 @@ function StopwatchPage() {
               )}
             </div>
           )}
-
-          <Authenticated>
-            <Button onClick={handleSave} variant="outline" className="w-full">
-              Save to History
-            </Button>
-          </Authenticated>
         </div>
       </Card>
     </div>

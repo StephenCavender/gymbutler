@@ -1,10 +1,8 @@
-import { api } from "@gymbutler/backend/convex/_generated/api";
 import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
-import { Authenticated, useQuery, useMutation } from "convex/react";
 import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/percentages")({
@@ -12,38 +10,14 @@ export const Route = createFileRoute("/percentages")({
 });
 
 function PercentagesPage() {
-  const settings = useQuery(api.settings.get);
-  const logEntry = useMutation(api.percentages.log);
-
   const [weight, setWeight] = useState("");
   const [unit, setUnit] = useState<"kg" | "lbs">("kg");
   const [min, setMin] = useState(50);
   const [max, setMax] = useState(100);
   const [step, setStep] = useState(5);
 
-  useEffect(() => {
-    if (settings) {
-      setMin(settings.percentagesMin ?? 50);
-      setMax(settings.percentagesMax ?? 100);
-      setStep(settings.percentagesStep ?? 5);
-      if (settings.weightUnit) {
-        setUnit(settings.weightUnit as "kg" | "lbs");
-      }
-    }
-  }, [settings]);
-
   const weightNum = parseFloat(weight) || 0;
   const percentages = calculatePercentages(weightNum, min, max, step);
-
-  const handleSave = async () => {
-    if (weightNum > 0) {
-      await logEntry({
-        weight: weightNum,
-        unit,
-        results: percentages,
-      });
-    }
-  };
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
@@ -145,12 +119,6 @@ function PercentagesPage() {
               </div>
             ))}
           </div>
-
-          <Authenticated>
-            <Button onClick={handleSave} className="mt-4 w-full">
-              Save to History
-            </Button>
-          </Authenticated>
         </Card>
       )}
     </div>

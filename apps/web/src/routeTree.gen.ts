@@ -11,12 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TimerRouteImport } from './routes/timer'
 import { Route as StopwatchRouteImport } from './routes/stopwatch'
-import { Route as SignUpRouteImport } from './routes/sign-up'
-import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PercentagesRouteImport } from './routes/percentages'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ConvertRouteImport } from './routes/convert'
+import { Route as IndexRouteImport } from './routes/index'
 
 const TimerRoute = TimerRouteImport.update({
   id: '/timer',
@@ -26,16 +25,6 @@ const TimerRoute = TimerRouteImport.update({
 const StopwatchRoute = StopwatchRouteImport.update({
   id: '/stopwatch',
   path: '/stopwatch',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignUpRoute = SignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignInRoute = SignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -58,78 +47,76 @@ const ConvertRoute = ConvertRouteImport.update({
   path: '/convert',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/convert': typeof ConvertRoute
   '/dashboard': typeof DashboardRoute
   '/percentages': typeof PercentagesRoute
   '/settings': typeof SettingsRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/stopwatch': typeof StopwatchRoute
   '/timer': typeof TimerRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/convert': typeof ConvertRoute
   '/dashboard': typeof DashboardRoute
   '/percentages': typeof PercentagesRoute
   '/settings': typeof SettingsRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/stopwatch': typeof StopwatchRoute
   '/timer': typeof TimerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/convert': typeof ConvertRoute
   '/dashboard': typeof DashboardRoute
   '/percentages': typeof PercentagesRoute
   '/settings': typeof SettingsRoute
-  '/sign-in': typeof SignInRoute
-  '/sign-up': typeof SignUpRoute
   '/stopwatch': typeof StopwatchRoute
   '/timer': typeof TimerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/convert'
     | '/dashboard'
     | '/percentages'
     | '/settings'
-    | '/sign-in'
-    | '/sign-up'
     | '/stopwatch'
     | '/timer'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/convert'
     | '/dashboard'
     | '/percentages'
     | '/settings'
-    | '/sign-in'
-    | '/sign-up'
     | '/stopwatch'
     | '/timer'
   id:
     | '__root__'
+    | '/'
     | '/convert'
     | '/dashboard'
     | '/percentages'
     | '/settings'
-    | '/sign-in'
-    | '/sign-up'
     | '/stopwatch'
     | '/timer'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   ConvertRoute: typeof ConvertRoute
   DashboardRoute: typeof DashboardRoute
   PercentagesRoute: typeof PercentagesRoute
   SettingsRoute: typeof SettingsRoute
-  SignInRoute: typeof SignInRoute
-  SignUpRoute: typeof SignUpRoute
   StopwatchRoute: typeof StopwatchRoute
   TimerRoute: typeof TimerRoute
 }
@@ -148,20 +135,6 @@ declare module '@tanstack/react-router' {
       path: '/stopwatch'
       fullPath: '/stopwatch'
       preLoaderRoute: typeof StopwatchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-up': {
-      id: '/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof SignUpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-in': {
-      id: '/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -192,16 +165,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConvertRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   ConvertRoute: ConvertRoute,
   DashboardRoute: DashboardRoute,
   PercentagesRoute: PercentagesRoute,
   SettingsRoute: SettingsRoute,
-  SignInRoute: SignInRoute,
-  SignUpRoute: SignUpRoute,
   StopwatchRoute: StopwatchRoute,
   TimerRoute: TimerRoute,
 }

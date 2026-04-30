@@ -1,43 +1,21 @@
-import { api } from "@gymbutler/backend/convex/_generated/api";
 import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
-import { Authenticated, useQuery, useMutation } from "convex/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/convert")({
   component: ConvertPage,
 });
 
 function ConvertPage() {
-  const settings = useQuery(api.settings.get);
-  const logEntry = useMutation(api.conversions.log);
-
   const [weight, setWeight] = useState("");
   const [fromUnit, setFromUnit] = useState<"kg" | "lbs">("kg");
-
-  useEffect(() => {
-    if (settings?.weightUnit) {
-      setFromUnit(settings.weightUnit as "kg" | "lbs");
-    }
-  }, [settings]);
 
   const weightNum = parseFloat(weight) || 0;
   const toUnit = fromUnit === "kg" ? "lbs" : "kg";
   const converted = convertWeight(weightNum, fromUnit);
-
-  const handleSave = async () => {
-    if (weightNum > 0) {
-      await logEntry({
-        fromWeight: weightNum,
-        fromUnit,
-        toWeight: converted,
-        toUnit,
-      });
-    }
-  };
 
   const handleSwapUnits = () => {
     setFromUnit(fromUnit === "kg" ? "lbs" : "kg");
@@ -132,12 +110,6 @@ function ConvertPage() {
               </p>
             </div>
           )}
-
-          <Authenticated>
-            <Button onClick={handleSave} className="w-full">
-              Save to History
-            </Button>
-          </Authenticated>
         </div>
       </Card>
     </div>
