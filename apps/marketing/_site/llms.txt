@@ -1,0 +1,27 @@
+# GymButler Documentation
+
+[Home](https://gymbutler.cavender.io/): All-in-one gym companion for calculating percentages, converting weights, and timing workouts.
+
+## Features
+
+- [Weight Percentages](https://gymbutler.cavender.io/percentages): Calculate training percentages from your working weight with customizable ranges (min/max/step).
+- [Weight Converter](https://gymbutler.cavender.io/convert): Convert between kilograms and pounds instantly with handy conversion tips.
+- [Timer](https://gymbutler.cavender.io/timer): Countdown timer with round tracking for interval training. Track best, worst, and average round times.
+- [Stopwatch](https://gymbutler.cavender.io/stopwatch): Track rest times with lap functionality and statistics.
+
+## About
+
+- [About GymButler](https://gymbutler.cavender.io/about): Learn about the features, availability, and contact information.
+- [Terms & Conditions](https://gymbutler.cavender.io/terms/): Terms and conditions for using the GymButler app.
+- [Privacy Policy](https://gymbutler.cavender.io/privacy/): Privacy policy for GymButler users.
+
+## Apps
+
+- [iOS App Store](https://apps.apple.com/us/app/gymbutler/id1613277271): Download on the App Store.
+- [Google Play Store](https://play.google.com/store/apps/details?id=com.gymbutler): Get it on Google Play.
+- [Web App](https://app.gymbutler.cavender.io): Use the web application directly in your browser.
+
+## Contact
+
+- Email: gymbutler@cavender.io
+- Developer: [Stephen Cavender](https://cavender.io)
