@@ -1,0 +1,13 @@
+{
+  "name": "@gymbutler/marketing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "eleventy --serve --incremental",
+    "build": "eleventy && cp -r src/assets _site/assets"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}
