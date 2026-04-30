@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "eleventy --serve --incremental",
-    "build": "eleventy && cp -r src/assets _site/assets && cp src/llms.txt _site/llms.txt"
+    "build": "eleventy && cp -r src/assets _site/assets"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0"
