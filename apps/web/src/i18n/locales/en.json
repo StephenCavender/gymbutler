@@ -1,0 +1,131 @@
+{
+  "app": {
+    "name": "GymButler",
+    "tagline": "Weightlifting percentage tables, at a glance."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "percentages": "Percentages",
+    "convert": "Convert",
+    "timer": "Timer",
+    "stopwatch": "Stopwatch",
+    "settings": "Settings",
+    "about": "About"
+  },
+  "home": {
+    "title": "Weightlifting Tools",
+    "subtitle": "Everything you need for your lifting session",
+    "percentages": "Percentages",
+    "percentagesDesc": "Calculate weight percentages instantly",
+    "convert": "Convert",
+    "convertDesc": "Convert between lbs and kg",
+    "timer": "Timer",
+    "timerDesc": "Rest timer with rounds",
+    "stopwatch": "Stopwatch",
+    "stopwatchDesc": "Track your workout time",
+    "dashboard": "View All Tools"
+  },
+  "percentages": {
+    "title": "Percentages",
+    "subtitle": "Enter a weight and see all percentages instantly",
+    "weight": "Weight",
+    "unit": "Unit",
+    "pounds": "lbs",
+    "kilograms": "kg",
+    "percentage": "Percentage",
+    "weightWithUnit": "Weight ({{unit}})",
+    "noData": "Enter a weight to see percentages"
+  },
+  "convert": {
+    "title": "Convert",
+    "subtitle": "Quick weight conversion between lbs and kg",
+    "pounds": "Pounds (lbs)",
+    "kilograms": "Kilograms (kg)",
+    "enterWeight": "Enter weight",
+    "quickTrick": "Quick conversion trick:",
+    "divideBy2": "Divide by 2, then subtract 10%"
+  },
+  "timer": {
+    "title": "Timer",
+    "subtitle": "Rest timer with customizable rounds",
+    "time": "Time",
+    "rounds": "Rounds",
+    "setDuration": "Set Duration",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "currentRound": "Round {{current}}",
+    "round": "Round",
+    "start": "Start",
+    "resume": "Resume",
+    "pause": "Pause",
+    "reset": "Reset",
+    "nextRound": "Next Round",
+    "finished": "Finished!",
+    "average": "Average",
+    "best": "Best",
+    "worst": "Worst"
+  },
+  "stopwatch": {
+    "title": "Stopwatch",
+    "subtitle": "Track your workout time with lap splits",
+    "totalTime": "Total Time",
+    "currentLap": "Current Lap",
+    "laps": "Laps",
+    "lap": "Lap",
+    "start": "Start",
+    "resume": "Resume",
+    "stop": "Stop",
+    "reset": "Reset",
+    "noLaps": "No laps recorded",
+    "average": "Average",
+    "best": "Best",
+    "worst": "Worst"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your GymButler experience",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Español",
+    "weightUnit": "Weight Unit",
+    "percentageSettings": "Percentage Settings",
+    "minimumPercentage": "Minimum Percentage",
+    "maximumPercentage": "Maximum Percentage",
+    "increment": "Increment",
+    "save": "Save Settings"
+  },
+  "about": {
+    "title": "About GymButler",
+    "description": "GymButler is your ultimate weightlifting companion. Quickly calculate percentages, convert between units, time your rest periods, and track your workouts with a built-in stopwatch.",
+    "features": {
+      "percentages": "Instant percentage calculations for any weight",
+      "convert": "Quick conversion between pounds and kilograms",
+      "timer": "Customizable rest timer with rounds",
+      "stopwatch": "Lap tracking stopwatch for workouts"
+    },
+    "contact": "Contact",
+    "contactDesc": "Have questions or suggestions? Reach out!",
+    "email": "gymbutler@cavender.io"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Quick access to all your lifting tools",
+    "open": "Open"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "percentages": "Percentages",
+    "convert": "Convert",
+    "timer": "Timer",
+    "stopwatch": "Stopwatch",
+    "settings": "Settings",
+    "about": "About",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy"
+  }
+}

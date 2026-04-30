@@ -1,0 +1,124 @@
+{
+  "app": {
+    "name": "GymButler",
+    "tagline": "Tablas de porcentajes de levantamiento, de un vistazo."
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "percentages": "Porcentajes",
+    "convert": "Convertir",
+    "timer": "Temporizador",
+    "stopwatch": "Cronómetro",
+    "settings": "Configuración",
+    "about": "Acerca de",
+    "terms": "Términos y Condiciones",
+    "privacy": "Política de Privacidad"
+  },
+  "home": {
+    "title": "Herramientas de Levantamiento",
+    "subtitle": "Todo lo que necesitas para tu sesión de entrenamiento",
+    "percentages": "Porcentajes",
+    "percentagesDesc": "Calcula porcentajes de peso al instante",
+    "convert": "Convertir",
+    "convertDesc": "Convierte entre lbs y kg",
+    "timer": "Temporizador",
+    "timerDesc": "Temporizador de descanso con rondas",
+    "stopwatch": "Cronómetro",
+    "stopwatchDesc": "Rastrea el tiempo de tu entrenamiento",
+    "dashboard": "Ver Todas las Herramientas"
+  },
+  "percentages": {
+    "title": "Porcentajes",
+    "subtitle": "Ingresa un peso y ve todos los porcentajes al instante",
+    "weight": "Peso",
+    "unit": "Unidad",
+    "pounds": "libras",
+    "kilograms": "kilogramos",
+    "percentage": "Porcentaje",
+    "weightWithUnit": "Peso ({{unit}})",
+    "noData": "Ingresa un peso para ver porcentajes",
+    "enterWeight": "Ingresa el peso"
+  },
+  "convert": {
+    "title": "Convertir",
+    "subtitle": "Conversión rápida de peso entre lbs y kg",
+    "pounds": "Libras (lbs)",
+    "kilograms": "Kilogramos (kg)",
+    "enterWeight": "Ingresa el peso",
+    "quickTrick": "Truco de conversión rápida:",
+    "divideBy2": "Divide por 2, luego resta 10%"
+  },
+  "timer": {
+    "title": "Temporizador",
+    "subtitle": "Temporizador de descanso con rondas personalizables",
+    "time": "Tiempo",
+    "rounds": "Rondas",
+    "setDuration": "Establecer Duración",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos",
+    "currentRound": "Ronda {{current}}",
+    "round": "Ronda",
+    "start": "Iniciar",
+    "resume": "Reanudar",
+    "pause": "Pausar",
+    "reset": "Reiniciar",
+    "nextRound": "Siguiente Ronda",
+    "finished": "¡Terminado!",
+    "average": "Promedio",
+    "best": "Mejor",
+    "worst": "Peor"
+  },
+  "stopwatch": {
+    "title": "Cronómetro",
+    "subtitle": "Rastrea el tiempo de tu entrenamiento con vueltas",
+    "totalTime": "Tiempo Total",
+    "currentLap": "Vuelta Actual",
+    "laps": "Vueltas",
+    "lap": "Vuelta",
+    "start": "Iniciar",
+    "resume": "Reanudar",
+    "stop": "Detener",
+    "reset": "Reiniciar",
+    "noLaps": "No hay vueltas registradas",
+    "average": "Promedio",
+    "best": "Mejor",
+    "worst": "Peor"
+  },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Personaliza tu experiencia con GymButler",
+    "theme": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema",
+    "language": "Idioma",
+    "english": "English",
+    "spanish": "Español",
+    "weightUnit": "Unidad de Peso",
+    "percentageSettings": "Configuración de Porcentajes",
+    "minimumPercentage": "Porcentaje Mínimo",
+    "maximumPercentage": "Porcentaje Máximo",
+    "increment": "Incremento",
+    "save": "Guardar Configuración",
+    "saved": "¡Configuración guardada!"
+  },
+  "about": {
+    "title": "Acerca de GymButler",
+    "description": "GymButler es tu compañero definitivo de levantamiento de pesas. Calcula porcentajes al instante, convierte entre unidades, temporiza tus períodos de descanso y rastrea tus entrenamientos con un cronómetro integrado.",
+    "features": {
+      "percentages": "Cálculos de porcentajes instantáneos para cualquier peso",
+      "convert": "Conversión rápida entre libras y kilogramos",
+      "timer": "Temporizador de descanso personalizable con rondas",
+      "stopwatch": "Cronómetro con seguimiento de vueltas para entrenamientos"
+    },
+    "contact": "Contacto",
+    "contactDesc": "¿Tienes preguntas o sugerencias? ¡Contáctanos!",
+    "email": "gymbutler@cavender.io"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "subtitle": "Acceso rápido a todas tus herramientas de levantamiento",
+    "open": "Abrir"
+  }
+}

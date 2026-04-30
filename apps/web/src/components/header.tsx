@@ -1,30 +1,32 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ModeToggle } from "./mode-toggle";
 
 const navLinks = [
-  { to: "/percentages", label: "Percentages" },
-  { to: "/convert", label: "Convert" },
-  { to: "/timer", label: "Timer" },
-  { to: "/stopwatch", label: "Stopwatch" },
-  { to: "/about", label: "About" },
-  { to: "/settings", label: "Settings" },
+  { to: "/percentages", labelKey: "nav.percentages" },
+  { to: "/convert", labelKey: "nav.convert" },
+  { to: "/timer", labelKey: "nav.timer" },
+  { to: "/stopwatch", labelKey: "nav.stopwatch" },
+  { to: "/about", labelKey: "nav.about" },
+  { to: "/settings", labelKey: "nav.settings" },
 ] as const;
 
 export default function Header() {
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
+  const { t } = useTranslation();
 
   return (
     <div>
       <div className="flex flex-row items-center justify-between px-4 py-2">
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold">
-            GymButler
+            {t('app.name')}
           </Link>
           <nav className="hidden gap-1 md:flex">
-            {navLinks.map(({ to, label }) => {
+            {navLinks.map(({ to, labelKey }) => {
               const isActive = currentPath === to;
               return (
                 <Link
@@ -36,7 +38,7 @@ export default function Header() {
                       : "hover:bg-muted"
                   }`}
                 >
-                  {label}
+                  {t(labelKey)}
                 </Link>
               );
             })}
@@ -49,7 +51,7 @@ export default function Header() {
 
       {/* Mobile navigation */}
       <nav className="flex gap-1 overflow-x-auto px-4 pb-2 md:hidden">
-        {navLinks.map(({ to, label }) => {
+        {navLinks.map(({ to, labelKey }) => {
           const isActive = currentPath === to;
           return (
             <Link
@@ -61,7 +63,7 @@ export default function Header() {
                   : "bg-muted hover:bg-muted/80"
               }`}
             >
-              {label}
+              {t(labelKey)}
             </Link>
           );
         })}

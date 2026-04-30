@@ -4,12 +4,14 @@ import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/convert")({
   component: ConvertPage,
 });
 
 function ConvertPage() {
+  const { t } = useTranslation();
   const [weight, setWeight] = useState("");
   const [fromUnit, setFromUnit] = useState<"kg" | "lbs">("kg");
 
@@ -23,25 +25,25 @@ function ConvertPage() {
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
-      <h1 className="mb-6 text-3xl font-bold">Weight Converter</h1>
+      <h1 className="mb-6 text-3xl font-bold">{t('convert.title')}</h1>
 
       <Card className="p-6">
         <div className="space-y-6">
           <div className="flex items-end gap-4">
             <div className="flex-1 space-y-2">
-              <Label htmlFor="weight">Weight</Label>
+              <Label htmlFor="weight">{t('convert.enterWeight')}</Label>
               <Input
                 id="weight"
                 type="number"
                 inputMode="decimal"
-                placeholder={`Enter weight in ${fromUnit}`}
+                placeholder={`${t('convert.enterWeight')} ${fromUnit}`}
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 className="text-lg"
               />
             </div>
             <div className="space-y-2">
-              <Label>From</Label>
+              <Label>{t('percentages.unit')}</Label>
               <div className="flex rounded-md border">
                 <button
                   type="button"
@@ -52,7 +54,7 @@ function ConvertPage() {
                       : "hover:bg-muted"
                   }`}
                 >
-                  kg
+                  {t('convert.kilograms')}
                 </button>
                 <button
                   type="button"
@@ -63,7 +65,7 @@ function ConvertPage() {
                       : "hover:bg-muted"
                   }`}
                 >
-                  lbs
+                  {t('convert.pounds')}
                 </button>
               </div>
             </div>
@@ -94,7 +96,7 @@ function ConvertPage() {
           </div>
 
           <div className="space-y-2">
-            <Label>Result</Label>
+            <Label>{t('convert.pounds')} / {t('convert.kilograms')}</Label>
             <div className="rounded-lg border bg-muted/50 p-4 text-center">
               <div className="text-4xl font-bold">
                 {weightNum > 0 ? converted.toFixed(2) : "—"} {toUnit}
@@ -104,9 +106,9 @@ function ConvertPage() {
 
           {weightNum > 0 && (
             <div className="rounded-lg bg-muted/30 p-4 text-center text-sm text-muted-foreground">
-              <p className="mb-2">Quick conversion trick:</p>
+              <p className="mb-2">{t('convert.quickTrick')}</p>
               <p>
-                Divide by 2, then subtract 10% ≈ {fromUnit === "kg" ? "lbs" : "kg"}
+                {t('convert.divideBy2')} ≈ {fromUnit === "kg" ? t('convert.pounds') : t('convert.kilograms')}
               </p>
             </div>
           )}
@@ -118,10 +120,8 @@ function ConvertPage() {
 
 function convertWeight(weight: number, fromUnit: "kg" | "lbs"): number {
   if (fromUnit === "kg") {
-    // 1 kg = 2.20462 lbs
     return weight * 2.20462;
   } else {
-    // 1 lb = 0.453592 kg
     return weight * 0.453592;
   }
 }

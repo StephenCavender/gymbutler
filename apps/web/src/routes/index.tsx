@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { Card, CardDescription, CardHeader, CardTitle } from "@gymbutler/ui/components/card";
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 const features = [
   {
-    title: "Weight Percentages",
-    description: "Calculate training percentages from your working weight",
+    titleKey: "home.percentages",
+    descriptionKey: "home.percentagesDesc",
     href: "/percentages",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -15,8 +16,8 @@ const features = [
     ),
   },
   {
-    title: "Weight Converter",
-    description: "Convert between kilograms and pounds instantly",
+    titleKey: "home.convert",
+    descriptionKey: "home.convertDesc",
     href: "/convert",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -26,8 +27,8 @@ const features = [
     ),
   },
   {
-    title: "Timer",
-    description: "Countdown timer with round tracking",
+    titleKey: "home.timer",
+    descriptionKey: "home.timerDesc",
     href: "/timer",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -37,8 +38,8 @@ const features = [
     ),
   },
   {
-    title: "Stopwatch",
-    description: "Track your rest times with lap functionality",
+    titleKey: "home.stopwatch",
+    descriptionKey: "home.stopwatchDesc",
     href: "/stopwatch",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -55,12 +56,14 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const { t } = useTranslation();
+
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">
       <div className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold">Gym Butler</h1>
+        <h1 className="mb-4 text-4xl font-bold">{t('app.name')}</h1>
         <p className="text-lg text-muted-foreground">
-          Your all-in-one gym companion for calculating percentages, converting weights, and timing your workouts
+          {t('app.tagline')}
         </p>
       </div>
 
@@ -72,8 +75,8 @@ function HomePage() {
                 <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                   {feature.icon}
                 </div>
-                <CardTitle>{feature.title}</CardTitle>
-                <CardDescription>{feature.description}</CardDescription>
+                <CardTitle>{t(feature.titleKey)}</CardTitle>
+                <CardDescription>{t(feature.descriptionKey)}</CardDescription>
               </CardHeader>
             </Card>
           </Link>

@@ -4,6 +4,7 @@ import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/settings")({
   component: SettingsPage,
@@ -19,6 +20,7 @@ const STORAGE_KEYS = {
 };
 
 function SettingsPage() {
+  const { t, i18n } = useTranslation();
   const [theme, setTheme] = useState("dark");
   const [locale, setLocale] = useState("en");
   const [weightUnit, setWeightUnit] = useState("kg");
@@ -31,7 +33,10 @@ function SettingsPage() {
     if (savedTheme) setTheme(savedTheme);
 
     const savedLocale = localStorage.getItem(STORAGE_KEYS.locale);
-    if (savedLocale) setLocale(savedLocale);
+    if (savedLocale) {
+      setLocale(savedLocale);
+      i18n.changeLanguage(savedLocale);
+    }
 
     const savedUnit = localStorage.getItem(STORAGE_KEYS.weightUnit);
     if (savedUnit) setWeightUnit(savedUnit);
@@ -44,7 +49,7 @@ function SettingsPage() {
 
     const savedStep = localStorage.getItem(STORAGE_KEYS.percentagesStep);
     if (savedStep) setPercentagesStep(parseInt(savedStep));
-  }, []);
+  }, [i18n]);
 
   const handleSave = () => {
     localStorage.setItem(STORAGE_KEYS.theme, theme);
@@ -53,32 +58,50 @@ function SettingsPage() {
     localStorage.setItem(STORAGE_KEYS.percentagesMin, percentagesMin.toString());
     localStorage.setItem(STORAGE_KEYS.percentagesMax, percentagesMax.toString());
     localStorage.setItem(STORAGE_KEYS.percentagesStep, percentagesStep.toString());
-    alert("Settings saved!");
+
+    i18n.changeLanguage(locale);
+    alert(t('settings.saved'));
   };
+
+  const themes = [
+    { value: "light", label: t('settings.light') },
+    { value: "dark", label: t('settings.dark') },
+    { value: "system", label: t('settings.system') },
+  ];
+
+  const languages = [
+    { value: "en", label: t('settings.english') },
+    { value: "es", label: t('settings.spanish') },
+  ];
+
+  const units = [
+    { value: "kg", label: t('percentages.kilograms') },
+    { value: "lbs", label: t('percentages.pounds') },
+  ];
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
-      <h1 className="mb-6 text-3xl font-bold">Settings</h1>
+      <h1 className="mb-6 text-3xl font-bold">{t('settings.title')}</h1>
 
       <div className="space-y-6">
         <Card className="p-6">
-          <h2 className="mb-4 text-lg font-semibold">Appearance</h2>
+          <h2 className="mb-4 text-lg font-semibold">{t('settings.theme')}</h2>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="theme">Theme</Label>
+              <Label htmlFor="theme">{t('settings.theme')}</Label>
               <div className="flex gap-2">
-                {["light", "dark", "system"].map((t) => (
+                {themes.map((tObj) => (
                   <button
-                    key={t}
+                    key={tObj.value}
                     type="button"
-                    onClick={() => setTheme(t)}
+                    onClick={() => setTheme(tObj.value)}
                     className={`flex-1 rounded border p-2 text-sm capitalize transition-colors ${
-                      theme === t
+                      theme === tObj.value
                         ? "border-primary bg-primary/10 text-primary"
                         : "hover:bg-muted"
                     }`}
                   >
-                    {t}
+                    {tObj.label}
                   </button>
                 ))}
               </div>
@@ -87,14 +110,11 @@ function SettingsPage() {
         </Card>
 
         <Card className="p-6">
-          <h2 className="mb-4 text-lg font-semibold">Language</h2>
+          <h2 className="mb-4 text-lg font-semibold">{t('settings.language')}</h2>
           <div className="space-y-2">
-            <Label htmlFor="locale">Language</Label>
+            <Label htmlFor="locale">{t('settings.language')}</Label>
             <div className="flex gap-2">
-              {[
-                { value: "en", label: "English" },
-                { value: "es", label: "Español" },
-              ].map(({ value, label }) => (
+              {languages.map(({ value, label }) => (
                 <button
                   key={value}
                   type="button"
@@ -113,15 +133,12 @@ function SettingsPage() {
         </Card>
 
         <Card className="p-6">
-          <h2 className="mb-4 text-lg font-semibold">Units</h2>
+          <h2 className="mb-4 text-lg font-semibold">{t('settings.weightUnit')}</h2>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label>Weight Unit</Label>
+              <Label>{t('settings.weightUnit')}</Label>
               <div className="flex gap-2">
-                {[
-                  { value: "kg", label: "Kilograms (kg)" },
-                  { value: "lbs", label: "Pounds (lbs)" },
-                ].map(({ value, label }) => (
+                {units.map(({ value, label }) => (
                   <button
                     key={value}
                     type="button"
@@ -141,10 +158,10 @@ function SettingsPage() {
         </Card>
 
         <Card className="p-6">
-          <h2 className="mb-4 text-lg font-semibold">Percentage Calculator Settings</h2>
+          <h2 className="mb-4 text-lg font-semibold">{t('settings.percentageSettings')}</h2>
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="min">Minimum %</Label>
+              <Label htmlFor="min">{t('settings.minimumPercentage')}</Label>
               <Input
                 id="min"
                 type="number"
@@ -155,7 +172,7 @@ function SettingsPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="max">Maximum %</Label>
+              <Label htmlFor="max">{t('settings.maximumPercentage')}</Label>
               <Input
                 id="max"
                 type="number"
@@ -166,7 +183,7 @@ function SettingsPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="step">Step</Label>
+              <Label htmlFor="step">{t('settings.increment')}</Label>
               <Input
                 id="step"
                 type="number"
@@ -180,7 +197,7 @@ function SettingsPage() {
         </Card>
 
         <Button onClick={handleSave} className="w-full">
-          Save Settings
+          {t('settings.save')}
         </Button>
       </div>
     </div>

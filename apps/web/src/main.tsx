@@ -1,8 +1,10 @@
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
+import { I18nextProvider } from "react-i18next";
 
 import Loader from "./components/loader";
 import { routeTree } from "./routeTree.gen";
+import "./i18n/i18n";
 
 const router = createRouter({
   routeTree,
@@ -26,5 +28,9 @@ if (!rootElement) {
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<RouterProvider router={router} />);
+  root.render(
+    <I18nextProvider i18n={require("./i18n/i18n").default}>
+      <RouterProvider router={router} />
+    </I18nextProvider>
+  );
 }

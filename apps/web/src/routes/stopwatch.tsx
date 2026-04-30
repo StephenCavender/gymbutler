@@ -2,6 +2,7 @@ import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/stopwatch")({
   component: StopwatchPage,
@@ -15,6 +16,7 @@ interface Lap {
 }
 
 function StopwatchPage() {
+  const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
   const [laps, setLaps] = useState<Lap[]>([]);
@@ -107,31 +109,31 @@ function StopwatchPage() {
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
-      <h1 className="mb-6 text-3xl font-bold">Stopwatch</h1>
+      <h1 className="mb-6 text-3xl font-bold">{t('stopwatch.title')}</h1>
 
       <Card className="p-6">
         <div className="space-y-6">
           <div className="text-center">
             <div className="mb-2 text-sm text-muted-foreground">
-              Total Time
+              {t('stopwatch.totalTime')}
             </div>
             <div className="inline-block rounded-lg bg-muted px-8 py-4 text-5xl font-bold tabular-nums md:text-6xl">
               {formatTime(totalTime)}
             </div>
 
             <div className="mt-2 text-sm text-muted-foreground">
-              Lap {laps.length > 0 ? laps.length : "—"}: {formatTime(getCurrentLapTime())}
+              {t('stopwatch.currentLap')}: {formatTime(getCurrentLapTime())}
             </div>
           </div>
 
           <div className="flex justify-center gap-3">
             {!isRunning ? (
               <Button onClick={startStopwatch} size="lg" className="min-w-[120px]">
-                {totalTime === 0 ? "Start" : "Resume"}
+                {totalTime === 0 ? t('stopwatch.start') : t('stopwatch.resume')}
               </Button>
             ) : (
               <Button onClick={stopStopwatch} size="lg" variant="outline" className="min-w-[120px]">
-                Stop
+                {t('stopwatch.stop')}
               </Button>
             )}
 
@@ -141,7 +143,7 @@ function StopwatchPage() {
               size="lg"
               disabled={!isRunning}
             >
-              Lap
+              {t('stopwatch.lap')}
             </Button>
 
             <Button
@@ -150,13 +152,13 @@ function StopwatchPage() {
               size="lg"
               disabled={totalTime === 0}
             >
-              Reset
+              {t('stopwatch.reset')}
             </Button>
           </div>
 
           {laps.length > 0 && (
             <div className="mt-6 space-y-2">
-              <h3 className="font-medium">Laps</h3>
+              <h3 className="font-medium">{t('stopwatch.laps')}</h3>
               <div className="max-h-[300px] space-y-1 overflow-y-auto">
                 {laps
                   .slice()
@@ -166,7 +168,7 @@ function StopwatchPage() {
                       key={lap.lapNumber}
                       className="flex justify-between rounded bg-muted/50 px-3 py-2 text-sm"
                     >
-                      <span>Lap {lap.lapNumber}</span>
+                      <span>{t('stopwatch.lap')} {lap.lapNumber}</span>
                       <span className="font-mono tabular-nums">
                         {formatTime(lap.lapTimeSeconds)}
                       </span>
@@ -177,25 +179,31 @@ function StopwatchPage() {
               {stats && (
                 <div className="mt-2 rounded bg-muted/30 px-3 py-2 text-sm">
                   <div className="flex justify-between">
-                    <span>Average</span>
+                    <span>{t('stopwatch.average')}</span>
                     <span className="font-mono tabular-nums">
                       {formatTime(stats.average)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Best</span>
+                    <span>{t('stopwatch.best')}</span>
                     <span className="font-mono tabular-nums text-green-600 dark:text-green-400">
                       {formatTime(stats.best)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Worst</span>
+                    <span>{t('stopwatch.worst')}</span>
                     <span className="font-mono tabular-nums text-red-600 dark:text-red-400">
                       {formatTime(stats.worst)}
                     </span>
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {laps.length === 0 && !isRunning && totalTime === 0 && (
+            <div className="text-center text-muted-foreground">
+              {t('stopwatch.noLaps')}
             </div>
           )}
         </div>
