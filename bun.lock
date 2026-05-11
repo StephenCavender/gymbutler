@@ -18,13 +18,6 @@
       },
     },
     "apps/marketing": {
-      "name": "@gymbutler/marketing",
-      "version": "1.0.0",
-      "devDependencies": {
-        "@11ty/eleventy": "^3.0.0",
-      },
-    },
-    "apps/marketing-2": {
       "name": "gymbutler-marketing-2",
       "version": "1.0.0",
       "devDependencies": {
@@ -443,8 +436,6 @@
     "@gymbutler/config": ["@gymbutler/config@workspace:packages/config"],
 
     "@gymbutler/env": ["@gymbutler/env@workspace:packages/env"],
-
-    "@gymbutler/marketing": ["@gymbutler/marketing@workspace:apps/marketing"],
 
     "@gymbutler/ui": ["@gymbutler/ui@workspace:packages/ui"],
 
@@ -1138,7 +1129,7 @@
 
     "gray-matter": ["gray-matter@4.0.3", "", { "dependencies": { "js-yaml": "^3.13.1", "kind-of": "^6.0.2", "section-matter": "^1.0.0", "strip-bom-string": "^1.0.0" } }, "sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q=="],
 
-    "gymbutler-marketing-2": ["gymbutler-marketing-2@workspace:apps/marketing-2"],
+    "gymbutler-marketing-2": ["gymbutler-marketing-2@workspace:apps/marketing"],
 
     "has-bigints": ["has-bigints@1.1.0", "", {}, "sha512-R3pbpkcIqv2Pm3dUwgjclDRVmWpTJW2DcMzcIhEXEx1oh/CEMObMm3KLmRJOdvhM7o4uQBnwr8pzRK2sJWIqfg=="],
 

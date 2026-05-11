@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TimerRouteImport } from './routes/timer'
 import { Route as StopwatchRouteImport } from './routes/stopwatch'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as PercentagesRouteImport } from './routes/percentages'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ConvertRouteImport } from './routes/convert'
 import { Route as AboutRouteImport } from './routes/about'
@@ -33,9 +35,19 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PercentagesRoute = PercentagesRouteImport.update({
   id: '/percentages',
   path: '/percentages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -64,7 +76,9 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/convert': typeof ConvertRoute
   '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
   '/percentages': typeof PercentagesRoute
+  '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
   '/stopwatch': typeof StopwatchRoute
   '/timer': typeof TimerRoute
@@ -74,7 +88,9 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/convert': typeof ConvertRoute
   '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
   '/percentages': typeof PercentagesRoute
+  '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
   '/stopwatch': typeof StopwatchRoute
   '/timer': typeof TimerRoute
@@ -85,7 +101,9 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/convert': typeof ConvertRoute
   '/dashboard': typeof DashboardRoute
+  '/login': typeof LoginRoute
   '/percentages': typeof PercentagesRoute
+  '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
   '/stopwatch': typeof StopwatchRoute
   '/timer': typeof TimerRoute
@@ -97,7 +115,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/convert'
     | '/dashboard'
+    | '/login'
     | '/percentages'
+    | '/register'
     | '/settings'
     | '/stopwatch'
     | '/timer'
@@ -107,7 +127,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/convert'
     | '/dashboard'
+    | '/login'
     | '/percentages'
+    | '/register'
     | '/settings'
     | '/stopwatch'
     | '/timer'
@@ -117,7 +139,9 @@ export interface FileRouteTypes {
     | '/about'
     | '/convert'
     | '/dashboard'
+    | '/login'
     | '/percentages'
+    | '/register'
     | '/settings'
     | '/stopwatch'
     | '/timer'
@@ -128,7 +152,9 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ConvertRoute: typeof ConvertRoute
   DashboardRoute: typeof DashboardRoute
+  LoginRoute: typeof LoginRoute
   PercentagesRoute: typeof PercentagesRoute
+  RegisterRoute: typeof RegisterRoute
   SettingsRoute: typeof SettingsRoute
   StopwatchRoute: typeof StopwatchRoute
   TimerRoute: typeof TimerRoute
@@ -157,11 +183,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/percentages': {
       id: '/percentages'
       path: '/percentages'
       fullPath: '/percentages'
       preLoaderRoute: typeof PercentagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -200,7 +240,9 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ConvertRoute: ConvertRoute,
   DashboardRoute: DashboardRoute,
+  LoginRoute: LoginRoute,
   PercentagesRoute: PercentagesRoute,
+  RegisterRoute: RegisterRoute,
   SettingsRoute: SettingsRoute,
   StopwatchRoute: StopwatchRoute,
   TimerRoute: TimerRoute,

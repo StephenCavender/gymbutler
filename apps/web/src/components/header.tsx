@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { authClient } from "../lib/auth-client";
 
 import { ModeToggle } from "./mode-toggle";
 
@@ -14,6 +14,11 @@ const navLinks = [
 export default function Header() {
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
+  const { data: session, isPending } = authClient.useSession();
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+  };
 
   return (
     <div>
@@ -42,6 +47,35 @@ export default function Header() {
           </nav>
         </div>
         <div className="flex items-center gap-2">
+          {isPending ? null : session ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden text-sm text-muted-foreground md:inline">
+                {session.user?.name ?? session.user?.email}
+              </span>
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="rounded px-3 py-1.5 text-sm transition-colors hover:bg-muted"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1">
+              <Link
+                to="/login"
+                className="rounded px-3 py-1.5 text-sm transition-colors hover:bg-muted"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/register"
+                className="rounded bg-primary px-3 py-1.5 text-sm text-primary-foreground transition-colors hover:bg-primary/90"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
           <ModeToggle />
         </div>
       </div>

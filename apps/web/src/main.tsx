@@ -1,8 +1,15 @@
+import { ConvexReactClient } from "convex/react";
+import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
 
 import Loader from "./components/loader";
 import { routeTree } from "./routeTree.gen";
+import { authClient } from "./lib/auth-client";
+
+const convex = new ConvexReactClient(
+  import.meta.env.VITE_CONVEX_URL as string
+);
 
 const router = createRouter({
   routeTree,
@@ -26,5 +33,9 @@ if (!rootElement) {
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<RouterProvider router={router} />);
+  root.render(
+    <ConvexBetterAuthProvider client={convex} authClient={authClient}>
+      <RouterProvider router={router} />
+    </ConvexBetterAuthProvider>
+  );
 }
