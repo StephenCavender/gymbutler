@@ -9,7 +9,9 @@
     "serve": "vite preview",
     "start": "vite",
     "check-types": "tsc --noEmit",
-    "generate-pwa-assets": "pwa-assets-generator"
+    "generate-pwa-assets": "pwa-assets-generator",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@convex-dev/better-auth": "catalog:",
@@ -43,6 +45,7 @@
     "postcss": "^8.5.10",
     "tailwindcss": "^4.2.2",
     "typescript": "catalog:",
-    "vite": "^8.0.8"
+    "vite": "^8.0.8",
+    "vitest": "^5.0.5"
   }
 }

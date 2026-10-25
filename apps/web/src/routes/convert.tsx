@@ -5,6 +5,8 @@ import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
+import { convertWeight, otherUnit } from "@/lib/weight";
+
 export const Route = createFileRoute("/convert")({
   component: ConvertPage,
 });
@@ -14,7 +16,7 @@ function ConvertPage() {
   const [fromUnit, setFromUnit] = useState<"kg" | "lbs">("kg");
 
   const weightNum = parseFloat(weight) || 0;
-  const toUnit = fromUnit === "kg" ? "lbs" : "kg";
+  const toUnit = otherUnit(fromUnit);
   const converted = convertWeight(weightNum, fromUnit);
 
   const handleSwapUnits = () => {
@@ -108,14 +110,4 @@ function ConvertPage() {
       </Card>
     </div>
   );
-}
-
-function convertWeight(weight: number, fromUnit: "kg" | "lbs"): number {
-  if (fromUnit === "kg") {
-    // 1 kg = 2.20462 lbs
-    return weight * 2.20462;
-  } else {
-    // 1 lb = 0.453592 kg
-    return weight * 0.453592;
-  }
 }

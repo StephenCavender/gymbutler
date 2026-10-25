@@ -3,6 +3,8 @@ import { Card } from "@gymbutler/ui/components/card";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, useCallback } from "react";
 
+import { durationStats, formatStopwatch } from "@/lib/time";
+
 export const Route = createFileRoute("/stopwatch")({
   component: StopwatchPage,
 });
@@ -73,18 +75,6 @@ function StopwatchPage() {
     };
   }, [isRunning, sessionStart]);
 
-  const formatTime = (totalSeconds: number): string => {
-    const h = Math.floor(totalSeconds / 3600);
-    const m = Math.floor((totalSeconds % 3600) / 60);
-    const s = Math.floor(totalSeconds % 60);
-    const ms = Math.floor((totalSeconds % 1) * 100);
-
-    if (h > 0) {
-      return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}.${ms.toString().padStart(2, "0")}`;
-    }
-    return `${m}:${s.toString().padStart(2, "0")}.${ms.toString().padStart(2, "0")}`;
-  };
-
   const getCurrentLapTime = (): number => {
     if (laps.length > 0) {
       return totalTime - laps[laps.length - 1].totalTimeSeconds;
@@ -92,18 +82,7 @@ function StopwatchPage() {
     return totalTime;
   };
 
-  const getLapStats = () => {
-    if (laps.length < 2) return null;
-
-    const lapTimes = laps.map((lap) => lap.lapTimeSeconds);
-    return {
-      average: lapTimes.reduce((a, b) => a + b, 0) / lapTimes.length,
-      best: Math.min(...lapTimes),
-      worst: Math.max(...lapTimes),
-    };
-  };
-
-  const stats = getLapStats();
+  const stats = durationStats(laps.map((lap) => lap.lapTimeSeconds));
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
@@ -114,11 +93,11 @@ function StopwatchPage() {
           <div className="text-center">
             <div className="mb-2 text-sm text-muted-foreground">Total Time</div>
             <div className="inline-block rounded-lg bg-muted px-8 py-4 text-5xl font-bold tabular-nums md:text-6xl">
-              {formatTime(totalTime)}
+              {formatStopwatch(totalTime)}
             </div>
 
             <div className="mt-2 text-sm text-muted-foreground">
-              Lap {laps.length > 0 ? laps.length : "—"}: {formatTime(getCurrentLapTime())}
+              Lap {laps.length > 0 ? laps.length : "—"}: {formatStopwatch(getCurrentLapTime())}
             </div>
           </div>
 
@@ -161,7 +140,7 @@ function StopwatchPage() {
                     >
                       <span>Lap {lap.lapNumber}</span>
                       <span className="font-mono tabular-nums">
-                        {formatTime(lap.lapTimeSeconds)}
+                        {formatStopwatch(lap.lapTimeSeconds)}
                       </span>
                     </div>
                   ))}
@@ -171,18 +150,18 @@ function StopwatchPage() {
                 <div className="mt-2 rounded bg-muted/30 px-3 py-2 text-sm">
                   <div className="flex justify-between">
                     <span>Average</span>
-                    <span className="font-mono tabular-nums">{formatTime(stats.average)}</span>
+                    <span className="font-mono tabular-nums">{formatStopwatch(stats.average)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Best</span>
                     <span className="font-mono tabular-nums text-green-600 dark:text-green-400">
-                      {formatTime(stats.best)}
+                      {formatStopwatch(stats.best)}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Worst</span>
                     <span className="font-mono tabular-nums text-red-600 dark:text-red-400">
-                      {formatTime(stats.worst)}
+                      {formatStopwatch(stats.worst)}
                     </span>
                   </div>
                 </div>

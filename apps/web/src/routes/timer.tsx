@@ -5,6 +5,8 @@ import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, useCallback } from "react";
 
+import { durationStats, formatDuration } from "@/lib/time";
+
 export const Route = createFileRoute("/timer")({
   component: TimerPage,
 });
@@ -99,19 +101,11 @@ function TimerPage() {
     };
   }, [isRunning, timeLeft]);
 
-  const formatTime = (totalSeconds: number): string => {
-    const h = Math.floor(totalSeconds / 3600);
-    const m = Math.floor((totalSeconds % 3600) / 60);
-    const s = totalSeconds % 60;
-    if (h > 0) {
-      return `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-    }
-    return `${m}:${s.toString().padStart(2, "0")}`;
-  };
-
   const currentRoundDuration = currentRoundStart
     ? Math.floor((Date.now() - currentRoundStart) / 1000)
     : 0;
+
+  const stats = durationStats(rounds.map((r) => r.durationSeconds));
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
@@ -166,11 +160,11 @@ function TimerPage() {
                 timeLeft === 0 ? "bg-destructive/20 text-destructive" : "bg-muted"
               }`}
             >
-              {formatTime(timeLeft)}
+              {formatDuration(timeLeft)}
             </div>
             {isRunning && currentRoundStart !== null && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Round {rounds.length + 1}: {formatTime(currentRoundDuration)}
+                Round {rounds.length + 1}: {formatDuration(currentRoundDuration)}
               </p>
             )}
           </div>
@@ -208,35 +202,27 @@ function TimerPage() {
                   >
                     <span>Round {round.roundNumber}</span>
                     <span className="font-mono tabular-nums">
-                      {formatTime(round.durationSeconds)}
+                      {formatDuration(round.durationSeconds)}
                     </span>
                   </div>
                 ))}
               </div>
 
-              {rounds.length > 1 && (
+              {stats && (
                 <div className="mt-2 rounded bg-muted/30 px-3 py-2 text-sm">
                   <div className="flex justify-between">
                     <span>Average</span>
                     <span className="font-mono tabular-nums">
-                      {formatTime(
-                        Math.round(
-                          rounds.reduce((a, b) => a + b.durationSeconds, 0) / rounds.length,
-                        ),
-                      )}
+                      {formatDuration(Math.round(stats.average))}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Best</span>
-                    <span className="font-mono tabular-nums">
-                      {formatTime(Math.min(...rounds.map((r) => r.durationSeconds)))}
-                    </span>
+                    <span className="font-mono tabular-nums">{formatDuration(stats.best)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Worst</span>
-                    <span className="font-mono tabular-nums">
-                      {formatTime(Math.max(...rounds.map((r) => r.durationSeconds)))}
-                    </span>
+                    <span className="font-mono tabular-nums">{formatDuration(stats.worst)}</span>
                   </div>
                 </div>
               )}

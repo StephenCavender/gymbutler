@@ -4,6 +4,8 @@ import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
+import { calculatePercentages } from "@/lib/weight";
+
 export const Route = createFileRoute("/percentages")({
   component: PercentagesPage,
 });
@@ -116,22 +118,4 @@ function PercentagesPage() {
       )}
     </div>
   );
-}
-
-function calculatePercentages(
-  weight: number,
-  min: number,
-  max: number,
-  step: number,
-): Array<{ percentage: number; weight: number }> {
-  const results: Array<{ percentage: number; weight: number }> = [];
-
-  for (let pct = max; pct >= min; pct -= step) {
-    results.push({
-      percentage: pct,
-      weight: (weight * pct) / 100,
-    });
-  }
-
-  return results;
 }
