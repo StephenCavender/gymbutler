@@ -14,7 +14,8 @@ Changes under `apps/web` also need a look in the browser: use the `browser-qa` s
 
 ## Gotchas
 
-- The web app uses Convex only for auth today. Tool pages keep state locally (settings in `localStorage`); the Convex history tables and functions exist but no page calls them yet.
+- Settings go through `useSettings()` (`components/settings-provider.tsx`): device storage when signed out, Convex when signed in. Defaults and validation live in `packages/backend/convex/model/settings.ts`, shared by both sides. Theme is per-device via next-themes.
+- Timer and stopwatch run on `lib/clock.ts` (timestamps, not interval ticks) so they stay accurate when the browser throttles timers; sessions are logged only when signed in.
 - `authUser.userId` on the Better Auth user is a deprecated field that stays empty for new users; use the helpers above.
 - `convex-test` is pinned to 0.0.54 because later versions need `convex` >= 1.43 and fail at runtime against our 1.36. Unpin it when upgrading `convex`.
 - This is a port of the React Native app in `~/Projects/gymbutler-mobile`. Where behaviour diverges, the web app's tests are the source of truth.

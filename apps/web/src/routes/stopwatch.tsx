@@ -1,88 +1,47 @@
+import { api } from "@gymbutler/backend/convex/_generated/api";
 import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useConvexAuth, useQuery } from "convex/react";
+import { useState } from "react";
 
-import { durationStats, formatStopwatch } from "@/lib/time";
+import { RecentSessions } from "@/components/recent-sessions";
+import { useNow } from "@/hooks/use-now";
+import { useSessionLogger } from "@/hooks/use-session-logger";
+import {
+  currentSplitMs,
+  elapsedMs,
+  isRunning,
+  mark,
+  newClock,
+  pause,
+  splits,
+  start,
+} from "@/lib/clock";
+import { stopwatchSessionLog } from "@/lib/session-log";
+import { durationStats, formatDuration, formatStopwatch } from "@/lib/time";
 
 export const Route = createFileRoute("/stopwatch")({
   component: StopwatchPage,
 });
 
-interface Lap {
-  lapNumber: number;
-  lapTimeSeconds: number;
-  totalTimeSeconds: number;
-  timestamp: number;
-}
-
 function StopwatchPage() {
-  const [isRunning, setIsRunning] = useState(false);
-  const [totalTime, setTotalTime] = useState(0);
-  const [laps, setLaps] = useState<Lap[]>([]);
-  const [sessionStart, setSessionStart] = useState<number | null>(null);
+  const [clock, setClock] = useState(newClock);
+  const running = isRunning(clock);
+  const now = useNow(running ? 31 : null);
+  const logSession = useSessionLogger(api.stopwatch.log);
 
-  const intervalRef = useRef<number | null>(null);
+  const { isAuthenticated } = useConvexAuth();
+  const recent = useQuery(api.stopwatch.getRecent, isAuthenticated ? { limit: 5 } : "skip");
 
-  const startStopwatch = useCallback(() => {
-    setIsRunning(true);
-    if (sessionStart === null) {
-      setSessionStart(Date.now());
-    }
-  }, [sessionStart]);
+  const totalSeconds = elapsedMs(clock, now) / 1000;
+  const lapSeconds = splits(clock).map((ms) => ms / 1000);
+  const stats = durationStats(lapSeconds);
 
-  const recordLap = useCallback(() => {
-    if (sessionStart !== null) {
-      const totalSeconds = (Date.now() - sessionStart) / 1000;
-      const lastLapTime = laps.length > 0 ? laps[laps.length - 1].totalTimeSeconds : 0;
-      const lapTime = totalSeconds - lastLapTime;
-
-      setLaps((prev) => [
-        ...prev,
-        {
-          lapNumber: prev.length + 1,
-          lapTimeSeconds: lapTime,
-          totalTimeSeconds: totalSeconds,
-          timestamp: Date.now(),
-        },
-      ]);
-    }
-  }, [laps, sessionStart]);
-
-  const stopStopwatch = useCallback(() => {
-    setIsRunning(false);
-  }, []);
-
-  const resetStopwatch = useCallback(() => {
-    setIsRunning(false);
-    setTotalTime(0);
-    setLaps([]);
-    setSessionStart(null);
-  }, []);
-
-  useEffect(() => {
-    if (isRunning && sessionStart !== null) {
-      intervalRef.current = window.setInterval(() => {
-        const elapsed = (Date.now() - sessionStart) / 1000;
-        setTotalTime(elapsed);
-      }, 10);
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [isRunning, sessionStart]);
-
-  const getCurrentLapTime = (): number => {
-    if (laps.length > 0) {
-      return totalTime - laps[laps.length - 1].totalTimeSeconds;
-    }
-    return totalTime;
+  const reset = () => {
+    logSession(stopwatchSessionLog(clock, Date.now()));
+    setClock(newClock());
   };
-
-  const stats = durationStats(laps.map((lap) => lap.lapTimeSeconds));
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
@@ -92,56 +51,66 @@ function StopwatchPage() {
         <div className="space-y-6">
           <div className="text-center">
             <div className="mb-2 text-sm text-muted-foreground">Total Time</div>
-            <div className="inline-block rounded-lg bg-muted px-8 py-4 text-5xl font-bold tabular-nums md:text-6xl">
-              {formatStopwatch(totalTime)}
+            <div
+              role="timer"
+              className="inline-block rounded-lg bg-muted px-8 py-4 text-5xl font-bold tabular-nums md:text-6xl"
+            >
+              {formatStopwatch(totalSeconds)}
             </div>
 
             <div className="mt-2 text-sm text-muted-foreground">
-              Lap {laps.length > 0 ? laps.length : "—"}: {formatStopwatch(getCurrentLapTime())}
+              Lap {lapSeconds.length + 1}: {formatStopwatch(currentSplitMs(clock, now) / 1000)}
             </div>
           </div>
 
           <div className="flex justify-center gap-3">
-            {!isRunning ? (
-              <Button onClick={startStopwatch} size="lg" className="min-w-[120px]">
-                {totalTime === 0 ? "Start" : "Resume"}
+            {!running ? (
+              <Button
+                onClick={() => setClock((c) => start(c, Date.now()))}
+                size="lg"
+                className="min-w-[120px]"
+              >
+                {totalSeconds === 0 ? "Start" : "Resume"}
               </Button>
             ) : (
-              <Button onClick={stopStopwatch} size="lg" variant="outline" className="min-w-[120px]">
+              <Button
+                onClick={() => setClock((c) => pause(c, Date.now()))}
+                size="lg"
+                variant="outline"
+                className="min-w-[120px]"
+              >
                 Stop
               </Button>
             )}
 
-            <Button onClick={recordLap} variant="secondary" size="lg" disabled={!isRunning}>
+            <Button
+              onClick={() => setClock((c) => mark(c, Date.now()))}
+              variant="secondary"
+              size="lg"
+              disabled={!running}
+            >
               Lap
             </Button>
 
-            <Button
-              onClick={resetStopwatch}
-              variant="destructive"
-              size="lg"
-              disabled={totalTime === 0}
-            >
+            <Button onClick={reset} variant="destructive" size="lg" disabled={totalSeconds === 0}>
               Reset
             </Button>
           </div>
 
-          {laps.length > 0 && (
+          {lapSeconds.length > 0 && (
             <div className="mt-6 space-y-2">
               <h3 className="font-medium">Laps</h3>
               <div className="max-h-[300px] space-y-1 overflow-y-auto">
-                {laps
-                  .slice()
+                {lapSeconds
+                  .map((s, i) => ({ s, n: i + 1 }))
                   .reverse()
-                  .map((lap) => (
+                  .map(({ s, n }) => (
                     <div
-                      key={lap.lapNumber}
+                      key={n}
                       className="flex justify-between rounded bg-muted/50 px-3 py-2 text-sm"
                     >
-                      <span>Lap {lap.lapNumber}</span>
-                      <span className="font-mono tabular-nums">
-                        {formatStopwatch(lap.lapTimeSeconds)}
-                      </span>
+                      <span>Lap {n}</span>
+                      <span className="font-mono tabular-nums">{formatStopwatch(s)}</span>
                     </div>
                   ))}
               </div>
@@ -170,6 +139,16 @@ function StopwatchPage() {
           )}
         </div>
       </Card>
+
+      <RecentSessions
+        sessions={recent?.map((s) => ({
+          id: s._id,
+          createdAt: s.createdAt,
+          summary: formatDuration(Math.round(s.totalTimeSeconds)),
+          detail:
+            s.laps.length > 0 ? `${s.laps.length} lap${s.laps.length === 1 ? "" : "s"}` : undefined,
+        }))}
+      />
     </div>
   );
 }

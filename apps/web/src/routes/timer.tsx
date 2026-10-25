@@ -1,112 +1,71 @@
+import { api } from "@gymbutler/backend/convex/_generated/api";
 import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useConvexAuth, useQuery } from "convex/react";
+import { useEffect, useState } from "react";
 
-import { durationStats, formatDuration } from "@/lib/time";
 import { FieldGroup } from "@/components/field-group";
+import { RecentSessions } from "@/components/recent-sessions";
+import { useNow } from "@/hooks/use-now";
+import { useSessionLogger } from "@/hooks/use-session-logger";
+import {
+  currentSplitMs,
+  elapsedMs,
+  finishCountdown,
+  isRunning,
+  mark,
+  newClock,
+  pause,
+  remainingMs,
+  splits,
+  start,
+} from "@/lib/clock";
+import { timerSessionLog } from "@/lib/session-log";
+import { durationStats, formatDuration } from "@/lib/time";
 
 export const Route = createFileRoute("/timer")({
   component: TimerPage,
 });
 
-interface Round {
-  roundNumber: number;
-  durationSeconds: number;
-  timestamp: number;
-}
+const wholeSeconds = (ms: number) => Math.round(ms / 1000);
 
 function TimerPage() {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(5);
   const [seconds, setSeconds] = useState(0);
-  const [totalTargetSeconds, setTotalTargetSeconds] = useState(300);
+  const targetMs = (hours * 3600 + minutes * 60 + seconds) * 1000;
 
-  const [isRunning, setIsRunning] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(0);
-  const [rounds, setRounds] = useState<Round[]>([]);
-  const [currentRoundStart, setCurrentRoundStart] = useState<number | null>(null);
-  const [sessionStart, setSessionStart] = useState<number | null>(null);
+  const [clock, setClock] = useState(newClock);
+  const [logged, setLogged] = useState(false);
+  const running = isRunning(clock);
+  const now = useNow(running ? 200 : null);
+  const logSession = useSessionLogger(api.timer.log);
 
-  const intervalRef = useRef<number | null>(null);
+  const { isAuthenticated } = useConvexAuth();
+  const recent = useQuery(api.timer.getRecent, isAuthenticated ? { limit: 5 } : "skip");
 
+  // Stop at zero and log the finished session.
   useEffect(() => {
-    const target = hours * 3600 + minutes * 60 + seconds;
-    if (target > 0) {
-      setTotalTargetSeconds(target);
-    }
-  }, [hours, minutes, seconds]);
+    const finished = finishCountdown(clock, targetMs, now);
+    if (finished === clock) return;
+    setClock(finished);
+    logSession(timerSessionLog(finished, targetMs, now));
+    setLogged(true);
+  }, [clock, targetMs, now, logSession]);
 
-  useEffect(() => {
-    if (!isRunning) {
-      setTimeLeft(totalTargetSeconds);
-    }
-  }, [totalTargetSeconds, isRunning]);
+  const started = running || elapsedMs(clock, now) > 0;
+  const remaining = remainingMs(clock, targetMs, now);
+  const roundMs = splits(clock);
+  const stats = durationStats(roundMs.map(wholeSeconds));
 
-  const startTimer = useCallback(() => {
-    setIsRunning(true);
-    if (sessionStart === null) {
-      setSessionStart(Date.now());
-    }
-    if (currentRoundStart === null) {
-      setCurrentRoundStart(Date.now());
-    }
-  }, [sessionStart, currentRoundStart]);
-
-  const recordRound = useCallback(() => {
-    if (currentRoundStart !== null) {
-      const duration = Math.floor((Date.now() - currentRoundStart) / 1000);
-      setRounds((prev) => [
-        ...prev,
-        {
-          roundNumber: prev.length + 1,
-          durationSeconds: duration,
-          timestamp: Date.now(),
-        },
-      ]);
-      setCurrentRoundStart(Date.now());
-    }
-  }, [currentRoundStart]);
-
-  const pauseTimer = useCallback(() => {
-    setIsRunning(false);
-  }, []);
-
-  const resetTimer = useCallback(() => {
-    setIsRunning(false);
-    setTimeLeft(totalTargetSeconds);
-    setRounds([]);
-    setCurrentRoundStart(null);
-    setSessionStart(null);
-  }, [totalTargetSeconds]);
-
-  useEffect(() => {
-    if (isRunning && timeLeft > 0) {
-      intervalRef.current = window.setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            setIsRunning(false);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [isRunning, timeLeft]);
-
-  const currentRoundDuration = currentRoundStart
-    ? Math.floor((Date.now() - currentRoundStart) / 1000)
-    : 0;
-
-  const stats = durationStats(rounds.map((r) => r.durationSeconds));
+  const reset = () => {
+    if (!logged) logSession(timerSessionLog(clock, targetMs, Date.now()));
+    setClock(newClock());
+    setLogged(false);
+  };
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
@@ -114,7 +73,7 @@ function TimerPage() {
 
       <Card className="p-6">
         <div className="space-y-6">
-          {!isRunning && timeLeft === totalTargetSeconds && rounds.length === 0 && (
+          {!started && (
             <FieldGroup label="Set Duration" className="space-y-4">
               <div className="grid grid-cols-3 gap-4">
                 {(
@@ -158,53 +117,69 @@ function TimerPage() {
 
           <div className="text-center">
             <div
+              role="timer"
               className={`inline-block rounded-lg px-8 py-4 text-6xl font-bold tabular-nums ${
-                timeLeft === 0 ? "bg-destructive/20 text-destructive" : "bg-muted"
+                started && remaining === 0 ? "bg-destructive/20 text-destructive" : "bg-muted"
               }`}
             >
-              {formatDuration(timeLeft)}
+              {formatDuration(Math.ceil(remaining / 1000))}
             </div>
-            {isRunning && currentRoundStart !== null && (
+            {running && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Round {rounds.length + 1}: {formatDuration(currentRoundDuration)}
+                Round {roundMs.length + 1}:{" "}
+                {formatDuration(Math.floor(currentSplitMs(clock, now) / 1000))}
               </p>
             )}
           </div>
 
           <div className="flex justify-center gap-3">
-            {!isRunning ? (
-              <Button onClick={startTimer} size="lg" className="min-w-[120px]">
-                {timeLeft === totalTargetSeconds && rounds.length === 0 ? "Start" : "Resume"}
+            {!running ? (
+              <Button
+                onClick={() => setClock((c) => start(c, Date.now()))}
+                size="lg"
+                className="min-w-[120px]"
+                disabled={targetMs === 0 || (started && remaining === 0)}
+              >
+                {started ? "Resume" : "Start"}
               </Button>
             ) : (
-              <Button onClick={pauseTimer} size="lg" variant="outline" className="min-w-[120px]">
+              <Button
+                onClick={() => setClock((c) => pause(c, Date.now()))}
+                size="lg"
+                variant="outline"
+                className="min-w-[120px]"
+              >
                 Pause
               </Button>
             )}
 
-            {rounds.length > 0 && (
-              <Button onClick={recordRound} variant="secondary" size="lg">
+            {running && (
+              <Button
+                onClick={() => setClock((c) => mark(c, Date.now()))}
+                variant="secondary"
+                size="lg"
+              >
                 Round
               </Button>
             )}
 
-            <Button onClick={resetTimer} variant="destructive" size="lg">
+            <Button onClick={reset} variant="destructive" size="lg" disabled={!started}>
               Reset
             </Button>
           </div>
 
-          {rounds.length > 0 && (
+          {roundMs.length > 0 && (
             <div className="mt-6 space-y-2">
               <h3 className="font-medium">Rounds</h3>
               <div className="space-y-1">
-                {rounds.map((round) => (
+                {roundMs.map((ms, i) => (
                   <div
-                    key={round.roundNumber}
+                    key={i}
                     className="flex justify-between rounded bg-muted/50 px-3 py-2 text-sm"
                   >
-                    <span>Round {round.roundNumber}</span>
+                    <span>Round {i + 1}</span>
                     <span className="font-mono tabular-nums">
-                      {formatDuration(round.durationSeconds)}
+                      {formatDuration(wholeSeconds(ms))}
                     </span>
                   </div>
                 ))}
@@ -232,6 +207,20 @@ function TimerPage() {
           )}
         </div>
       </Card>
+
+      <RecentSessions
+        sessions={recent?.map((s) => ({
+          id: s._id,
+          createdAt: s.createdAt,
+          summary: formatDuration(Math.round(s.totalSeconds)),
+          detail: [
+            s.rounds.length > 0 && `${s.rounds.length} round${s.rounds.length === 1 ? "" : "s"}`,
+            s.status === "cancelled" && "stopped early",
+          ]
+            .filter(Boolean)
+            .join(", "),
+        }))}
+      />
     </div>
   );
 }
