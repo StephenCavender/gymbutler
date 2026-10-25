@@ -2,6 +2,7 @@
   "extends": "@gymbutler/config/tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
+    "types": [],
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "paths": {
       "@gymbutler/ui/*": ["./src/*"]

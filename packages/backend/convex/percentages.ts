@@ -35,14 +35,15 @@ export const getRecent = query({
   args: { limit: v.optional(v.number()) },
   handler: async (ctx, args) => {
     const authUser = await authComponent.getAuthUser(ctx);
-    if (!authUser || !authUser.userId) {
+    const userId = authUser?.userId;
+    if (!userId) {
       return [];
     }
 
     const limit = args.limit ?? 10;
     const entries = await ctx.db
       .query("percentagesEntry")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser.userId))
+      .withIndex("by_userId", (q) => q.eq("userId", userId))
       .order("desc")
       .take(limit);
 

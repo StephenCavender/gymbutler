@@ -144,12 +144,12 @@ function AboutPage() {
         </div>
 
         <div className="flex justify-center gap-4 text-sm text-muted-foreground">
-          <Link to="/terms" className="hover:text-foreground">
+          <a href="https://gymbutler.cavender.io/terms/" className="hover:text-foreground">
             Terms & Conditions
-          </Link>
-          <Link to="/privacy" className="hover:text-foreground">
+          </a>
+          <a href="https://gymbutler.cavender.io/privacy/" className="hover:text-foreground">
             Privacy Policy
-          </Link>
+          </a>
         </div>
       </div>
     </div>
