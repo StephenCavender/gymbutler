@@ -4,6 +4,8 @@
 
 `bun run verify` (lint fix + format, typecheck, tests) must be green before you finish a task. The pre-commit hook runs the same checks and blocks failing commits; fix the cause rather than bypassing it.
 
+Changes under `apps/web` also need a look in the browser: use the `browser-qa` skill.
+
 ## Conventions
 
 - Pure logic (calculations, formatting) lives in `apps/web/src/lib/` with a colocated `*.test.ts`. Route components in `apps/web/src/routes/` stay thin and import from there; extract logic before adding to it.

@@ -92,6 +92,7 @@ gymbutler/
 - `bun run dev`: Start all applications in development mode
 - `bun run build`: Build all applications
 - `bun run dev:web`: Start only the web application
+- `scripts/dev-local.sh [start|stop]`: Run Convex + the web app on :3001, in the background with `start`; without a Convex login it uses a local anonymous backend
 - `bun run dev:setup`: Setup and configure your Convex project
 - `bun run check-types`: Check TypeScript types across all apps
 - `bun run check`: Run Oxlint and Oxfmt (fixing)

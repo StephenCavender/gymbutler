@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@1.12.0",
+        "--headless",
+        "--isolated",
+        "--executablePath=/usr/bin/chromium",
+        "--viewport=390x844",
+        "--no-usage-statistics",
+        "--no-performance-crux"
+      ],
+      "description": "Headless Chromium for checking the running web app: navigate, click, type, screenshot, read console and network."
+    }
+  }
+}
