@@ -6,6 +6,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, useCallback } from "react";
 
 import { durationStats, formatDuration } from "@/lib/time";
+import { FieldGroup } from "@/components/field-group";
 
 export const Route = createFileRoute("/timer")({
   component: TimerPage,
@@ -114,44 +115,45 @@ function TimerPage() {
       <Card className="p-6">
         <div className="space-y-6">
           {!isRunning && timeLeft === totalTargetSeconds && rounds.length === 0 && (
-            <div className="space-y-4">
-              <Label>Set Duration</Label>
+            <FieldGroup label="Set Duration" className="space-y-4">
               <div className="grid grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Input
-                    type="number"
-                    value={hours}
-                    onChange={(e) => setHours(parseInt(e.target.value) || 0)}
-                    min={0}
-                    max={23}
-                    className="text-center"
-                  />
-                  <span className="block text-center text-sm text-muted-foreground">Hours</span>
-                </div>
-                <div className="space-y-2">
-                  <Input
-                    type="number"
-                    value={minutes}
-                    onChange={(e) => setMinutes(parseInt(e.target.value) || 0)}
-                    min={0}
-                    max={59}
-                    className="text-center"
-                  />
-                  <span className="block text-center text-sm text-muted-foreground">Minutes</span>
-                </div>
-                <div className="space-y-2">
-                  <Input
-                    type="number"
-                    value={seconds}
-                    onChange={(e) => setSeconds(parseInt(e.target.value) || 0)}
-                    min={0}
-                    max={59}
-                    className="text-center"
-                  />
-                  <span className="block text-center text-sm text-muted-foreground">Seconds</span>
-                </div>
+                {(
+                  [
+                    { id: "timer-hours", label: "Hours", value: hours, set: setHours, max: 23 },
+                    {
+                      id: "timer-minutes",
+                      label: "Minutes",
+                      value: minutes,
+                      set: setMinutes,
+                      max: 59,
+                    },
+                    {
+                      id: "timer-seconds",
+                      label: "Seconds",
+                      value: seconds,
+                      set: setSeconds,
+                      max: 59,
+                    },
+                  ] as const
+                ).map(({ id, label, value, set, max }) => (
+                  <div key={id} className="space-y-2">
+                    <Input
+                      id={id}
+                      type="number"
+                      inputMode="numeric"
+                      value={value}
+                      onChange={(e) => set(parseInt(e.target.value) || 0)}
+                      min={0}
+                      max={max}
+                      className="text-center"
+                    />
+                    <Label htmlFor={id} className="justify-center text-sm text-muted-foreground">
+                      {label}
+                    </Label>
+                  </div>
+                ))}
               </div>
-            </div>
+            </FieldGroup>
           )}
 
           <div className="text-center">

@@ -5,12 +5,14 @@ import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 
+import { FieldGroup } from "@/components/field-group";
+import { useTheme } from "@/components/theme-provider";
+
 export const Route = createFileRoute("/settings")({
   component: SettingsPage,
 });
 
 const STORAGE_KEYS = {
-  theme: "gymbutler-theme",
   locale: "gymbutler-locale",
   weightUnit: "gymbutler-weight-unit",
   percentagesMin: "gymbutler-pct-min",
@@ -19,7 +21,7 @@ const STORAGE_KEYS = {
 };
 
 function SettingsPage() {
-  const [theme, setTheme] = useState("dark");
+  const { theme, setTheme } = useTheme();
   const [locale, setLocale] = useState("en");
   const [weightUnit, setWeightUnit] = useState("kg");
   const [percentagesMin, setPercentagesMin] = useState(50);
@@ -27,9 +29,6 @@ function SettingsPage() {
   const [percentagesStep, setPercentagesStep] = useState(5);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem(STORAGE_KEYS.theme);
-    if (savedTheme) setTheme(savedTheme);
-
     const savedLocale = localStorage.getItem(STORAGE_KEYS.locale);
     if (savedLocale) setLocale(savedLocale);
 
@@ -47,7 +46,6 @@ function SettingsPage() {
   }, []);
 
   const handleSave = () => {
-    localStorage.setItem(STORAGE_KEYS.theme, theme);
     localStorage.setItem(STORAGE_KEYS.locale, locale);
     localStorage.setItem(STORAGE_KEYS.weightUnit, weightUnit);
     localStorage.setItem(STORAGE_KEYS.percentagesMin, percentagesMin.toString());
@@ -64,13 +62,13 @@ function SettingsPage() {
         <Card className="p-6">
           <h2 className="mb-4 text-lg font-semibold">Appearance</h2>
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="theme">Theme</Label>
+            <FieldGroup label="Theme">
               <div className="flex gap-2">
                 {["light", "dark", "system"].map((t) => (
                   <button
                     key={t}
                     type="button"
+                    aria-pressed={theme === t}
                     onClick={() => setTheme(t)}
                     className={`flex-1 rounded border p-2 text-sm capitalize transition-colors ${
                       theme === t ? "border-primary bg-primary/10 text-primary" : "hover:bg-muted"
@@ -80,14 +78,13 @@ function SettingsPage() {
                   </button>
                 ))}
               </div>
-            </div>
+            </FieldGroup>
           </div>
         </Card>
 
         <Card className="p-6">
           <h2 className="mb-4 text-lg font-semibold">Language</h2>
-          <div className="space-y-2">
-            <Label htmlFor="locale">Language</Label>
+          <FieldGroup label="Language">
             <div className="flex gap-2">
               {[
                 { value: "en", label: "English" },
@@ -96,6 +93,7 @@ function SettingsPage() {
                 <button
                   key={value}
                   type="button"
+                  aria-pressed={locale === value}
                   onClick={() => setLocale(value)}
                   className={`flex-1 rounded border p-2 text-sm transition-colors ${
                     locale === value
@@ -107,14 +105,13 @@ function SettingsPage() {
                 </button>
               ))}
             </div>
-          </div>
+          </FieldGroup>
         </Card>
 
         <Card className="p-6">
           <h2 className="mb-4 text-lg font-semibold">Units</h2>
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Weight Unit</Label>
+            <FieldGroup label="Weight Unit">
               <div className="flex gap-2">
                 {[
                   { value: "kg", label: "Kilograms (kg)" },
@@ -123,6 +120,7 @@ function SettingsPage() {
                   <button
                     key={value}
                     type="button"
+                    aria-pressed={weightUnit === value}
                     onClick={() => setWeightUnit(value)}
                     className={`flex-1 rounded border p-2 text-sm transition-colors ${
                       weightUnit === value
@@ -134,7 +132,7 @@ function SettingsPage() {
                   </button>
                 ))}
               </div>
-            </div>
+            </FieldGroup>
           </div>
         </Card>
 

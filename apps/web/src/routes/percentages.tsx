@@ -5,6 +5,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { calculatePercentages } from "@/lib/weight";
+import { FieldGroup } from "@/components/field-group";
 
 export const Route = createFileRoute("/percentages")({
   component: PercentagesPage,
@@ -39,11 +40,11 @@ function PercentagesPage() {
                 className="text-lg"
               />
             </div>
-            <div className="space-y-2">
-              <Label>Unit</Label>
+            <FieldGroup label="Unit">
               <div className="flex rounded-md border">
                 <button
                   type="button"
+                  aria-pressed={unit === "kg"}
                   onClick={() => setUnit("kg")}
                   className={`flex-1 px-4 py-2 text-sm transition-colors ${
                     unit === "kg" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
@@ -53,6 +54,7 @@ function PercentagesPage() {
                 </button>
                 <button
                   type="button"
+                  aria-pressed={unit === "lbs"}
                   onClick={() => setUnit("lbs")}
                   className={`flex-1 px-4 py-2 text-sm transition-colors ${
                     unit === "lbs" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
@@ -61,7 +63,7 @@ function PercentagesPage() {
                   lbs
                 </button>
               </div>
-            </div>
+            </FieldGroup>
           </div>
 
           <div className="grid grid-cols-3 gap-4">

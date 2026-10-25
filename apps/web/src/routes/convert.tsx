@@ -6,6 +6,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { convertWeight, otherUnit } from "@/lib/weight";
+import { FieldGroup } from "@/components/field-group";
 
 export const Route = createFileRoute("/convert")({
   component: ConvertPage,
@@ -42,11 +43,11 @@ function ConvertPage() {
                 className="text-lg"
               />
             </div>
-            <div className="space-y-2">
-              <Label>From</Label>
+            <FieldGroup label="From">
               <div className="flex rounded-md border">
                 <button
                   type="button"
+                  aria-pressed={fromUnit === "kg"}
                   onClick={() => setFromUnit("kg")}
                   className={`flex-1 px-4 py-2 text-sm transition-colors ${
                     fromUnit === "kg" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
@@ -56,6 +57,7 @@ function ConvertPage() {
                 </button>
                 <button
                   type="button"
+                  aria-pressed={fromUnit === "lbs"}
                   onClick={() => setFromUnit("lbs")}
                   className={`flex-1 px-4 py-2 text-sm transition-colors ${
                     fromUnit === "lbs" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
@@ -64,7 +66,7 @@ function ConvertPage() {
                   lbs
                 </button>
               </div>
-            </div>
+            </FieldGroup>
           </div>
 
           <div className="flex justify-center">
@@ -73,6 +75,7 @@ function ConvertPage() {
               size="icon"
               onClick={handleSwapUnits}
               className="rounded-full"
+              aria-label="Swap units"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -91,14 +94,13 @@ function ConvertPage() {
             </Button>
           </div>
 
-          <div className="space-y-2">
-            <Label>Result</Label>
-            <div className="rounded-lg border bg-muted/50 p-4 text-center">
+          <FieldGroup label="Result">
+            <output className="block rounded-lg border bg-muted/50 p-4 text-center">
               <div className="text-4xl font-bold">
                 {weightNum > 0 ? converted.toFixed(2) : "—"} {toUnit}
               </div>
-            </div>
-          </div>
+            </output>
+          </FieldGroup>
 
           {weightNum > 0 && (
             <div className="rounded-lg bg-muted/30 p-4 text-center text-sm text-muted-foreground">
