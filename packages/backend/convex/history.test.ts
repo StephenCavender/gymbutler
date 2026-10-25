@@ -4,35 +4,17 @@ import { describe, expect, it } from "vitest";
 import { api } from "./_generated/api";
 import { setup, signIn } from "./test.setup";
 
-// percentages, conversions, timer and stopwatch share one shape:
+// timer and stopwatch share one shape:
 // `log` stores an entry for the signed-in user, `getRecent` reads them back.
 type HistoryModule = {
   name: string;
-  table: "percentagesEntry" | "conversionEntry" | "timerSession" | "stopwatchSession";
+  table: "timerSession" | "stopwatchSession";
   log: FunctionReference<"mutation">;
   getRecent: FunctionReference<"query">;
   entry: (n: number) => Record<string, unknown>;
 };
 
 const modules: HistoryModule[] = [
-  {
-    name: "percentages",
-    table: "percentagesEntry",
-    log: api.percentages.log,
-    getRecent: api.percentages.getRecent,
-    entry: (n) => ({
-      weight: 100 + n,
-      unit: "kg",
-      results: [{ percentage: 50, weight: (100 + n) / 2 }],
-    }),
-  },
-  {
-    name: "conversions",
-    table: "conversionEntry",
-    log: api.conversions.log,
-    getRecent: api.conversions.getRecent,
-    entry: (n) => ({ fromWeight: 100 + n, fromUnit: "kg", toWeight: 220 + n, toUnit: "lbs" }),
-  },
   {
     name: "timer",
     table: "timerSession",

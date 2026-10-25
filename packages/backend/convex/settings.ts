@@ -1,41 +1,32 @@
-import { query, mutation } from "./_generated/server";
-import { v } from "convex/values";
-import { getUserId, requireUserId } from "./auth";
+import { ConvexError, v } from "convex/values";
 
+import { mutation, query } from "./_generated/server";
+import { getUserId, requireUserId } from "./auth";
+import { settingsError, withDefaults } from "./model/settings";
+import { weightUnit } from "./schema";
+
+/** The caller's saved settings (only fields they changed), or null. */
 export const get = query({
   args: {},
   handler: async (ctx) => {
     const userId = await getUserId(ctx);
-    if (!userId) {
-      return null;
-    }
+    if (!userId) return null;
 
-    const settings = await ctx.db
+    const doc = await ctx.db
       .query("userSettings")
       .withIndex("by_userId", (q) => q.eq("userId", userId))
       .first();
+    if (!doc) return null;
 
-    if (!settings) {
-      // Return defaults if no settings exist
-      return {
-        theme: "system",
-        locale: "en",
-        weightUnit: "kg",
-        percentagesMin: 50,
-        percentagesMax: 100,
-        percentagesStep: 5,
-      };
-    }
-
-    return settings;
+    const { weightUnit, percentagesMin, percentagesMax, percentagesStep } = doc;
+    return { weightUnit, percentagesMin, percentagesMax, percentagesStep };
   },
 });
 
+/** Save the given fields, rejecting changes that leave the settings invalid. */
 export const upsert = mutation({
   args: {
-    theme: v.optional(v.string()),
-    locale: v.optional(v.string()),
-    weightUnit: v.optional(v.string()),
+    weightUnit: v.optional(weightUnit),
     percentagesMin: v.optional(v.number()),
     percentagesMax: v.optional(v.number()),
     percentagesStep: v.optional(v.number()),
@@ -48,22 +39,13 @@ export const upsert = mutation({
       .withIndex("by_userId", (q) => q.eq("userId", userId))
       .first();
 
+    const error = settingsError(withDefaults({ ...existing, ...args }));
+    if (error) throw new ConvexError(error);
+
     if (existing) {
-      await ctx.db.patch(existing._id, {
-        ...args,
-      });
+      await ctx.db.patch(existing._id, args);
       return existing._id;
-    } else {
-      const id = await ctx.db.insert("userSettings", {
-        userId,
-        theme: args.theme ?? "system",
-        locale: args.locale ?? "en",
-        weightUnit: args.weightUnit ?? "kg",
-        percentagesMin: args.percentagesMin ?? 50,
-        percentagesMax: args.percentagesMax ?? 100,
-        percentagesStep: args.percentagesStep ?? 5,
-      });
-      return id;
     }
+    return await ctx.db.insert("userSettings", { userId, ...args });
   },
 });

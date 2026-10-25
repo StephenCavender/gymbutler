@@ -1,5 +1,7 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
+
+import { sessionStatus } from "./schema";
 import { getUserId, requireUserId } from "./auth";
 
 export const log = mutation({
@@ -13,7 +15,7 @@ export const log = mutation({
       }),
     ),
     totalTimeSeconds: v.number(),
-    status: v.string(),
+    status: sessionStatus,
   },
   handler: async (ctx, args) => {
     const userId = await requireUserId(ctx);

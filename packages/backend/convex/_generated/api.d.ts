@@ -9,10 +9,9 @@
  */
 
 import type * as auth from "../auth.js";
-import type * as conversions from "../conversions.js";
 import type * as healthCheck from "../healthCheck.js";
 import type * as http from "../http.js";
-import type * as percentages from "../percentages.js";
+import type * as model_settings from "../model/settings.js";
 import type * as privateData from "../privateData.js";
 import type * as settings from "../settings.js";
 import type * as stopwatch from "../stopwatch.js";
@@ -26,10 +25,9 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
-  conversions: typeof conversions;
   healthCheck: typeof healthCheck;
   http: typeof http;
-  percentages: typeof percentages;
+  "model/settings": typeof model_settings;
   privateData: typeof privateData;
   settings: typeof settings;
   stopwatch: typeof stopwatch;

@@ -1,47 +1,19 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+export const weightUnit = v.union(v.literal("kg"), v.literal("lbs"));
+export const sessionStatus = v.union(v.literal("completed"), v.literal("cancelled"));
+
 export default defineSchema({
-  // User settings/preferences
+  // Only the fields a user has changed; read with withDefaults() from model/settings.
   userSettings: defineTable({
     userId: v.string(),
-    theme: v.optional(v.string()), // "light", "dark", "system"
-    locale: v.optional(v.string()), // "en", "es"
-    weightUnit: v.optional(v.string()), // "kg" | "lbs"
-    percentagesMin: v.optional(v.number()), // default 50
-    percentagesMax: v.optional(v.number()), // default 100
-    percentagesStep: v.optional(v.number()), // default 5
+    weightUnit: v.optional(weightUnit),
+    percentagesMin: v.optional(v.number()),
+    percentagesMax: v.optional(v.number()),
+    percentagesStep: v.optional(v.number()),
   }).index("by_userId", ["userId"]),
 
-  // Weight entry for percentages calculator
-  percentagesEntry: defineTable({
-    userId: v.string(),
-    weight: v.number(),
-    unit: v.string(), // "kg" | "lbs"
-    results: v.array(
-      v.object({
-        percentage: v.number(),
-        weight: v.number(),
-      }),
-    ),
-    createdAt: v.number(), // timestamp
-  })
-    .index("by_userId", ["userId"])
-    .index("by_userId_createdAt", ["userId", "createdAt"]),
-
-  // Weight conversion history
-  conversionEntry: defineTable({
-    userId: v.string(),
-    fromWeight: v.number(),
-    fromUnit: v.string(), // "kg" | "lbs"
-    toWeight: v.number(),
-    toUnit: v.string(), // "kg" | "lbs"
-    createdAt: v.number(),
-  })
-    .index("by_userId", ["userId"])
-    .index("by_userId_createdAt", ["userId", "createdAt"]),
-
-  // Timer sessions
   timerSession: defineTable({
     userId: v.string(),
     totalSeconds: v.number(),
@@ -52,13 +24,12 @@ export default defineSchema({
         timestamp: v.number(),
       }),
     ),
-    status: v.string(), // "completed" | "cancelled"
+    status: sessionStatus,
     createdAt: v.number(),
   })
     .index("by_userId", ["userId"])
     .index("by_userId_createdAt", ["userId", "createdAt"]),
 
-  // Stopwatch sessions
   stopwatchSession: defineTable({
     userId: v.string(),
     laps: v.array(
@@ -70,7 +41,7 @@ export default defineSchema({
       }),
     ),
     totalTimeSeconds: v.number(),
-    status: v.string(), // "completed" | "cancelled"
+    status: sessionStatus,
     createdAt: v.number(),
   })
     .index("by_userId", ["userId"])
