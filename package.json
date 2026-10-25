@@ -26,6 +26,7 @@
     "dev:server": "turbo -F @gymbutler/backend dev",
     "dev:setup": "turbo -F @gymbutler/backend dev:setup",
     "check": "oxlint && oxfmt --write",
+    "lint": "oxlint && oxfmt --check",
     "verify": "bun run check && bun run check-types && bun run test",
     "test": "turbo test",
     "prepare": "husky"

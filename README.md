@@ -24,24 +24,25 @@ bun install
 
 ## Convex Setup
 
-This project uses Convex as a backend. You'll need to set up Convex before running the app:
+First-time setup (Convex project, auth env vars, and production deploys) is scripted:
 
 ```bash
-bun run dev:setup
+scripts/setup-deploy.sh
 ```
 
-Follow the prompts to create a new Convex project and connect it to your application.
-
-Copy environment variables from `packages/backend/.env.local` to `apps/*/.env`.
-
-Then, run the development server:
+It walks you through each step and writes `apps/web/.env` for local dev. Then run:
 
 ```bash
 bun run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser to see the web application.
-Your app will connect to the Convex cloud backend automatically.
+Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
+
+## Deployment
+
+`.github/workflows/ci.yml` runs lint, typecheck and tests on every push and PR. On `master`, once they pass, it runs `scripts/build-production.sh` through `vercel build`, which deploys Convex to production and then builds the web app against it, then publishes to Vercel at https://app.gymbutler.cavender.dev.
+
+Deploys stay off until `scripts/setup-deploy.sh` has set the required secrets and the `DEPLOY_ENABLED` repo variable.
 
 ## UI Customization
 
@@ -72,6 +73,8 @@ If you want to add app-specific blocks instead of shared primitives, run the sha
 ## Git Hooks and Formatting
 
 - Format and lint fix: `bun run check`
+- Everything CI checks (lint fix, typecheck, tests): `bun run verify`
+- The pre-commit hook runs lint-staged, typecheck and tests.
 
 ## Project Structure
 
@@ -91,5 +94,8 @@ gymbutler/
 - `bun run dev:web`: Start only the web application
 - `bun run dev:setup`: Setup and configure your Convex project
 - `bun run check-types`: Check TypeScript types across all apps
-- `bun run check`: Run Oxlint and Oxfmt
+- `bun run check`: Run Oxlint and Oxfmt (fixing)
+- `bun run lint`: Run Oxlint and Oxfmt (check only, as in CI)
+- `bun run test`: Run all tests
+- `bun run verify`: Lint fix, typecheck and test
 - `cd apps/web && bun run generate-pwa-assets`: Generate PWA assets

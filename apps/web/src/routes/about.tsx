@@ -88,7 +88,7 @@ function AboutPage() {
               />
             </a>
             <a
-              href="https://app.gymbutler.cavender.io"
+              href="https://app.gymbutler.cavender.dev"
               className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm transition-colors hover:bg-muted"
             >
               <svg
