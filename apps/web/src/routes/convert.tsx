@@ -3,10 +3,13 @@ import { Card } from "@gymbutler/ui/components/card";
 import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
+import type { WeightUnit } from "@gymbutler/backend/convex/model/settings";
 import { useState } from "react";
 
 import { convertWeight, otherUnit } from "@/lib/weight";
 import { FieldGroup } from "@/components/field-group";
+import { useSettings } from "@/components/settings-provider";
+import { UnitToggle } from "@/components/unit-toggle";
 
 export const Route = createFileRoute("/convert")({
   component: ConvertPage,
@@ -14,14 +17,17 @@ export const Route = createFileRoute("/convert")({
 
 function ConvertPage() {
   const [weight, setWeight] = useState("");
-  const [fromUnit, setFromUnit] = useState<"kg" | "lbs">("kg");
+  const { settings } = useSettings();
+  // Starts from the preferred unit; switching here doesn't change the setting.
+  const [chosenUnit, setFromUnit] = useState<WeightUnit | null>(null);
+  const fromUnit = chosenUnit ?? settings.weightUnit;
 
   const weightNum = parseFloat(weight) || 0;
   const toUnit = otherUnit(fromUnit);
   const converted = convertWeight(weightNum, fromUnit);
 
   const handleSwapUnits = () => {
-    setFromUnit(fromUnit === "kg" ? "lbs" : "kg");
+    setFromUnit(otherUnit(fromUnit));
   };
 
   return (
@@ -43,30 +49,7 @@ function ConvertPage() {
                 className="text-lg"
               />
             </div>
-            <FieldGroup label="From">
-              <div className="flex rounded-md border">
-                <button
-                  type="button"
-                  aria-pressed={fromUnit === "kg"}
-                  onClick={() => setFromUnit("kg")}
-                  className={`flex-1 px-4 py-2 text-sm transition-colors ${
-                    fromUnit === "kg" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-                  }`}
-                >
-                  kg
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={fromUnit === "lbs"}
-                  onClick={() => setFromUnit("lbs")}
-                  className={`flex-1 px-4 py-2 text-sm transition-colors ${
-                    fromUnit === "lbs" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-                  }`}
-                >
-                  lbs
-                </button>
-              </div>
-            </FieldGroup>
+            <UnitToggle label="From" value={fromUnit} onChange={setFromUnit} />
           </div>
 
           <div className="flex justify-center">

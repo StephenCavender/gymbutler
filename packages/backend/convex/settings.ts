@@ -2,13 +2,13 @@ import { ConvexError, v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { getUserId, requireUserId } from "./auth";
-import { settingsError, withDefaults } from "./model/settings";
+import { settingsError, withDefaults, type Settings } from "./model/settings";
 import { weightUnit } from "./schema";
 
 /** The caller's saved settings (only fields they changed), or null. */
 export const get = query({
   args: {},
-  handler: async (ctx) => {
+  handler: async (ctx): Promise<Partial<Settings> | null> => {
     const userId = await getUserId(ctx);
     if (!userId) return null;
 

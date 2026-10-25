@@ -3,6 +3,7 @@ import { HeadContent, Outlet, createRootRouteWithContext } from "@tanstack/react
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 import Header from "@/components/header";
+import { SettingsProvider } from "@/components/settings-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 
 import "../index.css";
@@ -42,10 +43,12 @@ function RootComponent() {
       <HeadContent />
       {/* grid-cols-1 is minmax(0, 1fr): without it the column grows to fit the
           scrollable mobile nav and every page overflows on phones. */}
-      <div className="grid h-svh grid-cols-1 grid-rows-[auto_1fr]">
-        <Header />
-        <Outlet />
-      </div>
+      <SettingsProvider>
+        <div className="grid h-svh grid-cols-1 grid-rows-[auto_1fr]">
+          <Header />
+          <Outlet />
+        </div>
+      </SettingsProvider>
       <Toaster richColors />
       <TanStackRouterDevtools position="bottom-left" />
     </ThemeProvider>

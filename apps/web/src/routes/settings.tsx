@@ -1,105 +1,78 @@
-import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
-import { Input } from "@gymbutler/ui/components/input";
-import { Label } from "@gymbutler/ui/components/label";
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { FieldGroup } from "@/components/field-group";
+import { PercentageRangeFields } from "@/components/percentage-range-fields";
+import { useSettings } from "@/components/settings-provider";
 import { useTheme } from "@/components/theme-provider";
 
 export const Route = createFileRoute("/settings")({
   component: SettingsPage,
 });
 
-const STORAGE_KEYS = {
-  locale: "gymbutler-locale",
-  weightUnit: "gymbutler-weight-unit",
-  percentagesMin: "gymbutler-pct-min",
-  percentagesMax: "gymbutler-pct-max",
-  percentagesStep: "gymbutler-pct-step",
-};
+const optionClass = (selected: boolean) =>
+  `flex-1 rounded border p-2 text-sm transition-colors ${
+    selected ? "border-primary bg-primary/10 text-primary" : "hover:bg-muted"
+  }`;
 
 function SettingsPage() {
   const { theme, setTheme } = useTheme();
-  const [locale, setLocale] = useState("en");
-  const [weightUnit, setWeightUnit] = useState("kg");
-  const [percentagesMin, setPercentagesMin] = useState(50);
-  const [percentagesMax, setPercentagesMax] = useState(100);
-  const [percentagesStep, setPercentagesStep] = useState(5);
-
-  useEffect(() => {
-    const savedLocale = localStorage.getItem(STORAGE_KEYS.locale);
-    if (savedLocale) setLocale(savedLocale);
-
-    const savedUnit = localStorage.getItem(STORAGE_KEYS.weightUnit);
-    if (savedUnit) setWeightUnit(savedUnit);
-
-    const savedMin = localStorage.getItem(STORAGE_KEYS.percentagesMin);
-    if (savedMin) setPercentagesMin(parseInt(savedMin));
-
-    const savedMax = localStorage.getItem(STORAGE_KEYS.percentagesMax);
-    if (savedMax) setPercentagesMax(parseInt(savedMax));
-
-    const savedStep = localStorage.getItem(STORAGE_KEYS.percentagesStep);
-    if (savedStep) setPercentagesStep(parseInt(savedStep));
-  }, []);
-
-  const handleSave = () => {
-    localStorage.setItem(STORAGE_KEYS.locale, locale);
-    localStorage.setItem(STORAGE_KEYS.weightUnit, weightUnit);
-    localStorage.setItem(STORAGE_KEYS.percentagesMin, percentagesMin.toString());
-    localStorage.setItem(STORAGE_KEYS.percentagesMax, percentagesMax.toString());
-    localStorage.setItem(STORAGE_KEYS.percentagesStep, percentagesStep.toString());
-    alert("Settings saved!");
-  };
+  const { settings, savedTo, update } = useSettings();
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-6">
-      <h1 className="mb-6 text-3xl font-bold">Settings</h1>
+      <h1 className="mb-2 text-3xl font-bold">Settings</h1>
+      <p className="mb-6 text-sm text-muted-foreground">
+        {savedTo === "account" ? (
+          "Changes save to your account automatically."
+        ) : (
+          <>
+            Changes save on this device.{" "}
+            <Link to="/login" className="underline">
+              Sign in
+            </Link>{" "}
+            to use them everywhere.
+          </>
+        )}
+      </p>
 
       <div className="space-y-6">
         <Card className="p-6">
           <h2 className="mb-4 text-lg font-semibold">Appearance</h2>
-          <div className="space-y-4">
-            <FieldGroup label="Theme">
-              <div className="flex gap-2">
-                {["light", "dark", "system"].map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    aria-pressed={theme === t}
-                    onClick={() => setTheme(t)}
-                    className={`flex-1 rounded border p-2 text-sm capitalize transition-colors ${
-                      theme === t ? "border-primary bg-primary/10 text-primary" : "hover:bg-muted"
-                    }`}
-                  >
-                    {t}
-                  </button>
-                ))}
-              </div>
-            </FieldGroup>
-          </div>
+          <FieldGroup label="Theme">
+            <div className="flex gap-2">
+              {(["light", "dark", "system"] as const).map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  aria-pressed={theme === t}
+                  onClick={() => setTheme(t)}
+                  className={`${optionClass(theme === t)} capitalize`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </FieldGroup>
+          <p className="mt-2 text-xs text-muted-foreground">Theme is saved per device.</p>
         </Card>
 
         <Card className="p-6">
-          <h2 className="mb-4 text-lg font-semibold">Language</h2>
-          <FieldGroup label="Language">
+          <h2 className="mb-4 text-lg font-semibold">Units</h2>
+          <FieldGroup label="Weight Unit">
             <div className="flex gap-2">
-              {[
-                { value: "en", label: "English" },
-                { value: "es", label: "Español" },
-              ].map(({ value, label }) => (
+              {(
+                [
+                  { value: "kg", label: "Kilograms (kg)" },
+                  { value: "lbs", label: "Pounds (lbs)" },
+                ] as const
+              ).map(({ value, label }) => (
                 <button
                   key={value}
                   type="button"
-                  aria-pressed={locale === value}
-                  onClick={() => setLocale(value)}
-                  className={`flex-1 rounded border p-2 text-sm transition-colors ${
-                    locale === value
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "hover:bg-muted"
-                  }`}
+                  aria-pressed={settings.weightUnit === value}
+                  onClick={() => update({ weightUnit: value })}
+                  className={optionClass(settings.weightUnit === value)}
                 >
                   {label}
                 </button>
@@ -109,75 +82,9 @@ function SettingsPage() {
         </Card>
 
         <Card className="p-6">
-          <h2 className="mb-4 text-lg font-semibold">Units</h2>
-          <div className="space-y-4">
-            <FieldGroup label="Weight Unit">
-              <div className="flex gap-2">
-                {[
-                  { value: "kg", label: "Kilograms (kg)" },
-                  { value: "lbs", label: "Pounds (lbs)" },
-                ].map(({ value, label }) => (
-                  <button
-                    key={value}
-                    type="button"
-                    aria-pressed={weightUnit === value}
-                    onClick={() => setWeightUnit(value)}
-                    className={`flex-1 rounded border p-2 text-sm transition-colors ${
-                      weightUnit === value
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "hover:bg-muted"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </FieldGroup>
-          </div>
+          <h2 className="mb-4 text-lg font-semibold">Percentage Table</h2>
+          <PercentageRangeFields />
         </Card>
-
-        <Card className="p-6">
-          <h2 className="mb-4 text-lg font-semibold">Percentage Calculator Settings</h2>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="min">Minimum %</Label>
-              <Input
-                id="min"
-                type="number"
-                value={percentagesMin}
-                onChange={(e) => setPercentagesMin(parseInt(e.target.value) || 50)}
-                min={0}
-                max={100}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="max">Maximum %</Label>
-              <Input
-                id="max"
-                type="number"
-                value={percentagesMax}
-                onChange={(e) => setPercentagesMax(parseInt(e.target.value) || 100)}
-                min={0}
-                max={100}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="step">Step</Label>
-              <Input
-                id="step"
-                type="number"
-                value={percentagesStep}
-                onChange={(e) => setPercentagesStep(parseInt(e.target.value) || 5)}
-                min={1}
-                max={50}
-              />
-            </div>
-          </div>
-        </Card>
-
-        <Button onClick={handleSave} className="w-full">
-          Save Settings
-        </Button>
       </div>
     </div>
   );

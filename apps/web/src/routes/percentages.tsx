@@ -5,7 +5,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { calculatePercentages } from "@/lib/weight";
-import { FieldGroup } from "@/components/field-group";
+import { PercentageRangeFields } from "@/components/percentage-range-fields";
+import { useSettings } from "@/components/settings-provider";
+import { UnitToggle } from "@/components/unit-toggle";
 
 export const Route = createFileRoute("/percentages")({
   component: PercentagesPage,
@@ -13,10 +15,13 @@ export const Route = createFileRoute("/percentages")({
 
 function PercentagesPage() {
   const [weight, setWeight] = useState("");
-  const [unit, setUnit] = useState<"kg" | "lbs">("kg");
-  const [min, setMin] = useState(50);
-  const [max, setMax] = useState(100);
-  const [step, setStep] = useState(5);
+  const { settings, update } = useSettings();
+  const {
+    weightUnit: unit,
+    percentagesMin: min,
+    percentagesMax: max,
+    percentagesStep: step,
+  } = settings;
 
   const weightNum = parseFloat(weight) || 0;
   const percentages = calculatePercentages(weightNum, min, max, step);
@@ -40,61 +45,14 @@ function PercentagesPage() {
                 className="text-lg"
               />
             </div>
-            <FieldGroup label="Unit">
-              <div className="flex rounded-md border">
-                <button
-                  type="button"
-                  aria-pressed={unit === "kg"}
-                  onClick={() => setUnit("kg")}
-                  className={`flex-1 px-4 py-2 text-sm transition-colors ${
-                    unit === "kg" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-                  }`}
-                >
-                  kg
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={unit === "lbs"}
-                  onClick={() => setUnit("lbs")}
-                  className={`flex-1 px-4 py-2 text-sm transition-colors ${
-                    unit === "lbs" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
-                  }`}
-                >
-                  lbs
-                </button>
-              </div>
-            </FieldGroup>
+            <UnitToggle
+              label="Unit"
+              value={unit}
+              onChange={(weightUnit) => update({ weightUnit })}
+            />
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="min">Min %</Label>
-              <Input
-                id="min"
-                type="number"
-                value={min}
-                onChange={(e) => setMin(parseInt(e.target.value) || 50)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="max">Max %</Label>
-              <Input
-                id="max"
-                type="number"
-                value={max}
-                onChange={(e) => setMax(parseInt(e.target.value) || 100)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="step">Step</Label>
-              <Input
-                id="step"
-                type="number"
-                value={step}
-                onChange={(e) => setStep(parseInt(e.target.value) || 5)}
-              />
-            </div>
-          </div>
+          <PercentageRangeFields />
         </div>
       </Card>
 
