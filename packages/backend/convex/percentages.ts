@@ -10,7 +10,7 @@ export const log = mutation({
       v.object({
         percentage: v.number(),
         weight: v.number(),
-      })
+      }),
     ),
   },
   handler: async (ctx, args) => {

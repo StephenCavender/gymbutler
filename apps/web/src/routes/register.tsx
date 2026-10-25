@@ -60,9 +60,7 @@ function RegisterPage() {
       <Card className="w-full p-8">
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold">Create Account</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Sign up for a GymButler account
-          </p>
+          <p className="mt-1 text-sm text-muted-foreground">Sign up for a GymButler account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -120,9 +118,7 @@ function RegisterPage() {
           </div>
 
           {error && (
-            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {error}
-            </div>
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
           )}
 
           <Button type="submit" className="w-full" disabled={loading}>

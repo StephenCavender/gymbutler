@@ -73,9 +73,7 @@ function SettingsPage() {
                     type="button"
                     onClick={() => setTheme(t)}
                     className={`flex-1 rounded border p-2 text-sm capitalize transition-colors ${
-                      theme === t
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "hover:bg-muted"
+                      theme === t ? "border-primary bg-primary/10 text-primary" : "hover:bg-muted"
                     }`}
                   >
                     {t}

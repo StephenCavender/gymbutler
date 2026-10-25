@@ -47,9 +47,7 @@ function ConvertPage() {
                   type="button"
                   onClick={() => setFromUnit("kg")}
                   className={`flex-1 px-4 py-2 text-sm transition-colors ${
-                    fromUnit === "kg"
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
+                    fromUnit === "kg" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                   }`}
                 >
                   kg
@@ -58,9 +56,7 @@ function ConvertPage() {
                   type="button"
                   onClick={() => setFromUnit("lbs")}
                   className={`flex-1 px-4 py-2 text-sm transition-colors ${
-                    fromUnit === "lbs"
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
+                    fromUnit === "lbs" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                   }`}
                 >
                   lbs
@@ -105,9 +101,7 @@ function ConvertPage() {
           {weightNum > 0 && (
             <div className="rounded-lg bg-muted/30 p-4 text-center text-sm text-muted-foreground">
               <p className="mb-2">Quick conversion trick:</p>
-              <p>
-                Divide by 2, then subtract 10% ≈ {fromUnit === "kg" ? "lbs" : "kg"}
-              </p>
+              <p>Divide by 2, then subtract 10% ≈ {fromUnit === "kg" ? "lbs" : "kg"}</p>
             </div>
           )}
         </div>

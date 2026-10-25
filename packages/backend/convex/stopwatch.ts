@@ -10,7 +10,7 @@ export const log = mutation({
         lapTimeSeconds: v.number(),
         totalTimeSeconds: v.number(),
         timestamp: v.number(),
-      })
+      }),
     ),
     totalTimeSeconds: v.number(),
     status: v.string(),

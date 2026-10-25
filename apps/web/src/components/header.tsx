@@ -35,9 +35,7 @@ export default function Header() {
                   key={to}
                   to={to}
                   className={`rounded px-3 py-1.5 text-sm transition-colors ${
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
+                    isActive ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                   }`}
                 >
                   {label}
@@ -89,9 +87,7 @@ export default function Header() {
               key={to}
               to={to}
               className={`shrink-0 rounded px-3 py-1.5 text-sm transition-colors ${
-                isActive
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted hover:bg-muted/80"
+                isActive ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80"
               }`}
             >
               {label}

@@ -18,7 +18,9 @@ function DashboardPage() {
             <div className="flex items-center justify-between">
               <CardTitle>Percentages</CardTitle>
               <Link to="/percentages">
-                <Button variant="outline" size="sm">Open</Button>
+                <Button variant="outline" size="sm">
+                  Open
+                </Button>
               </Link>
             </div>
           </CardHeader>
@@ -32,7 +34,9 @@ function DashboardPage() {
             <div className="flex items-center justify-between">
               <CardTitle>Weight Converter</CardTitle>
               <Link to="/convert">
-                <Button variant="outline" size="sm">Open</Button>
+                <Button variant="outline" size="sm">
+                  Open
+                </Button>
               </Link>
             </div>
           </CardHeader>
@@ -46,13 +50,13 @@ function DashboardPage() {
             <div className="flex items-center justify-between">
               <CardTitle>Timer</CardTitle>
               <Link to="/timer">
-                <Button variant="outline" size="sm">Open</Button>
+                <Button variant="outline" size="sm">
+                  Open
+                </Button>
               </Link>
             </div>
           </CardHeader>
-          <p className="text-sm text-muted-foreground">
-            Countdown timer with round tracking
-          </p>
+          <p className="text-sm text-muted-foreground">Countdown timer with round tracking</p>
         </Card>
 
         <Card className="p-6">
@@ -60,13 +64,13 @@ function DashboardPage() {
             <div className="flex items-center justify-between">
               <CardTitle>Stopwatch</CardTitle>
               <Link to="/stopwatch">
-                <Button variant="outline" size="sm">Open</Button>
+                <Button variant="outline" size="sm">
+                  Open
+                </Button>
               </Link>
             </div>
           </CardHeader>
-          <p className="text-sm text-muted-foreground">
-            Track rest times with lap functionality
-          </p>
+          <p className="text-sm text-muted-foreground">Track rest times with lap functionality</p>
         </Card>
       </div>
     </div>

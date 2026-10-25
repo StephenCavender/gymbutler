@@ -7,9 +7,7 @@ import Loader from "./components/loader";
 import { routeTree } from "./routeTree.gen";
 import { authClient } from "./lib/auth-client";
 
-const convex = new ConvexReactClient(
-  import.meta.env.VITE_CONVEX_URL as string
-);
+const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
 const router = createRouter({
   routeTree,
@@ -36,6 +34,6 @@ if (!rootElement.innerHTML) {
   root.render(
     <ConvexBetterAuthProvider client={convex} authClient={authClient}>
       <RouterProvider router={router} />
-    </ConvexBetterAuthProvider>
+    </ConvexBetterAuthProvider>,
   );
 }

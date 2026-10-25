@@ -30,9 +30,7 @@ function AboutPage() {
           </svg>
         </div>
         <h1 className="mb-2 text-4xl font-bold">About GymButler</h1>
-        <p className="text-lg text-muted-foreground">
-          Your all-in-one gym companion
-        </p>
+        <p className="text-lg text-muted-foreground">Your all-in-one gym companion</p>
       </div>
 
       <div className="space-y-6">
@@ -116,21 +114,15 @@ function AboutPage() {
         <Card className="p-6">
           <h2 className="mb-4 text-xl font-semibold">Contact</h2>
           <p className="mb-4 text-muted-foreground">
-            Questions, suggestions, or feedback? Reach out at{' '}
-            <a
-              href="mailto:gymbutler@cavender.io"
-              className="text-primary hover:underline"
-            >
+            Questions, suggestions, or feedback? Reach out at{" "}
+            <a href="mailto:gymbutler@cavender.io" className="text-primary hover:underline">
               gymbutler@cavender.io
             </a>
             .
           </p>
           <p className="text-muted-foreground">
-            GymButler is built with ♥ by{' '}
-            <a
-              href="https://cavender.io"
-              className="text-primary hover:underline"
-            >
+            GymButler is built with ♥ by{" "}
+            <a href="https://cavender.io" className="text-primary hover:underline">
               Stephen Cavender
             </a>
             .

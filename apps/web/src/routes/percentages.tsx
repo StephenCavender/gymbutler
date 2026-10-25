@@ -1,9 +1,8 @@
-import { Button } from "@gymbutler/ui/components/button";
 import { Card } from "@gymbutler/ui/components/card";
 import { Input } from "@gymbutler/ui/components/input";
 import { Label } from "@gymbutler/ui/components/label";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/percentages")({
   component: PercentagesPage,
@@ -45,9 +44,7 @@ function PercentagesPage() {
                   type="button"
                   onClick={() => setUnit("kg")}
                   className={`flex-1 px-4 py-2 text-sm transition-colors ${
-                    unit === "kg"
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
+                    unit === "kg" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                   }`}
                 >
                   kg
@@ -56,9 +53,7 @@ function PercentagesPage() {
                   type="button"
                   onClick={() => setUnit("lbs")}
                   className={`flex-1 px-4 py-2 text-sm transition-colors ${
-                    unit === "lbs"
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
+                    unit === "lbs" ? "bg-primary text-primary-foreground" : "hover:bg-muted"
                   }`}
                 >
                   lbs
@@ -110,9 +105,7 @@ function PercentagesPage() {
                 key={result.percentage}
                 className="rounded-lg border bg-muted/50 p-3 text-center"
               >
-                <div className="text-sm text-muted-foreground">
-                  {result.percentage}%
-                </div>
+                <div className="text-sm text-muted-foreground">{result.percentage}%</div>
                 <div className="text-lg font-semibold">
                   {result.weight.toFixed(1)} {unit}
                 </div>
@@ -129,7 +122,7 @@ function calculatePercentages(
   weight: number,
   min: number,
   max: number,
-  step: number
+  step: number,
 ): Array<{ percentage: number; weight: number }> {
   const results: Array<{ percentage: number; weight: number }> = [];
 

@@ -11,8 +11,7 @@ export default defineSchema({
     percentagesMin: v.optional(v.number()), // default 50
     percentagesMax: v.optional(v.number()), // default 100
     percentagesStep: v.optional(v.number()), // default 5
-  })
-    .index("by_userId", ["userId"]),
+  }).index("by_userId", ["userId"]),
 
   // Weight entry for percentages calculator
   percentagesEntry: defineTable({
@@ -23,7 +22,7 @@ export default defineSchema({
       v.object({
         percentage: v.number(),
         weight: v.number(),
-      })
+      }),
     ),
     createdAt: v.number(), // timestamp
   })
@@ -51,7 +50,7 @@ export default defineSchema({
         roundNumber: v.number(),
         durationSeconds: v.number(),
         timestamp: v.number(),
-      })
+      }),
     ),
     status: v.string(), // "completed" | "cancelled"
     createdAt: v.number(),
@@ -68,7 +67,7 @@ export default defineSchema({
         lapTimeSeconds: v.number(),
         totalTimeSeconds: v.number(),
         timestamp: v.number(),
-      })
+      }),
     ),
     totalTimeSeconds: v.number(),
     status: v.string(), // "completed" | "cancelled"

@@ -8,9 +8,20 @@ const features = [
     description: "Calculate training percentages from your working weight",
     href: "/percentages",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 3H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z"/>
-        <path d="M12 8v8"/><path d="m9 12 3-3 3 3"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M16 3H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z" />
+        <path d="M12 8v8" />
+        <path d="m9 12 3-3 3 3" />
       </svg>
     ),
   },
@@ -19,9 +30,19 @@ const features = [
     description: "Convert between kilograms and pounds instantly",
     href: "/convert",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M7 16V4M7 4L3 8M7 4L11 8"/>
-        <path d="M17 8V20M17 20L21 16M17 20L13 16"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M7 16V4M7 4L3 8M7 4L11 8" />
+        <path d="M17 8V20M17 20L21 16M17 20L13 16" />
       </svg>
     ),
   },
@@ -30,9 +51,19 @@ const features = [
     description: "Countdown timer with round tracking",
     href: "/timer",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
       </svg>
     ),
   },
@@ -41,10 +72,23 @@ const features = [
     description: "Track your rest times with lap functionality",
     href: "/stopwatch",
     icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="13" r="8"/>
-        <path d="M12 9v4l2 2"/>
-        <path d="M5 3 2 6"/><path d="M22 6l-3-3"/><path d="M6 19l-2 2"/><path d="M18 19l-2 2"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="13" r="8" />
+        <path d="M12 9v4l2 2" />
+        <path d="M5 3 2 6" />
+        <path d="M22 6l-3-3" />
+        <path d="M6 19l-2 2" />
+        <path d="M18 19l-2 2" />
       </svg>
     ),
   },
@@ -60,7 +104,8 @@ function HomePage() {
       <div className="mb-12 text-center">
         <h1 className="mb-4 text-4xl font-bold">Gym Butler</h1>
         <p className="text-lg text-muted-foreground">
-          Your all-in-one gym companion for calculating percentages, converting weights, and timing your workouts
+          Your all-in-one gym companion for calculating percentages, converting weights, and timing
+          your workouts
         </p>
       </div>
 

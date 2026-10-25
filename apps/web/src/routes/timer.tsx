@@ -132,9 +132,7 @@ function TimerPage() {
                     max={23}
                     className="text-center"
                   />
-                  <span className="block text-center text-sm text-muted-foreground">
-                    Hours
-                  </span>
+                  <span className="block text-center text-sm text-muted-foreground">Hours</span>
                 </div>
                 <div className="space-y-2">
                   <Input
@@ -145,9 +143,7 @@ function TimerPage() {
                     max={59}
                     className="text-center"
                   />
-                  <span className="block text-center text-sm text-muted-foreground">
-                    Minutes
-                  </span>
+                  <span className="block text-center text-sm text-muted-foreground">Minutes</span>
                 </div>
                 <div className="space-y-2">
                   <Input
@@ -158,9 +154,7 @@ function TimerPage() {
                     max={59}
                     className="text-center"
                   />
-                  <span className="block text-center text-sm text-muted-foreground">
-                    Seconds
-                  </span>
+                  <span className="block text-center text-sm text-muted-foreground">Seconds</span>
                 </div>
               </div>
             </div>
@@ -169,9 +163,7 @@ function TimerPage() {
           <div className="text-center">
             <div
               className={`inline-block rounded-lg px-8 py-4 text-6xl font-bold tabular-nums ${
-                timeLeft === 0
-                  ? "bg-destructive/20 text-destructive"
-                  : "bg-muted"
+                timeLeft === 0 ? "bg-destructive/20 text-destructive" : "bg-muted"
               }`}
             >
               {formatTime(timeLeft)}
@@ -186,9 +178,7 @@ function TimerPage() {
           <div className="flex justify-center gap-3">
             {!isRunning ? (
               <Button onClick={startTimer} size="lg" className="min-w-[120px]">
-                {timeLeft === totalTargetSeconds && rounds.length === 0
-                  ? "Start"
-                  : "Resume"}
+                {timeLeft === totalTargetSeconds && rounds.length === 0 ? "Start" : "Resume"}
               </Button>
             ) : (
               <Button onClick={pauseTimer} size="lg" variant="outline" className="min-w-[120px]">
@@ -231,26 +221,21 @@ function TimerPage() {
                     <span className="font-mono tabular-nums">
                       {formatTime(
                         Math.round(
-                          rounds.reduce((a, b) => a + b.durationSeconds, 0) /
-                            rounds.length
-                        )
+                          rounds.reduce((a, b) => a + b.durationSeconds, 0) / rounds.length,
+                        ),
                       )}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Best</span>
                     <span className="font-mono tabular-nums">
-                      {formatTime(
-                        Math.min(...rounds.map((r) => r.durationSeconds))
-                      )}
+                      {formatTime(Math.min(...rounds.map((r) => r.durationSeconds)))}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Worst</span>
                     <span className="font-mono tabular-nums">
-                      {formatTime(
-                        Math.max(...rounds.map((r) => r.durationSeconds))
-                      )}
+                      {formatTime(Math.max(...rounds.map((r) => r.durationSeconds)))}
                     </span>
                   </div>
                 </div>

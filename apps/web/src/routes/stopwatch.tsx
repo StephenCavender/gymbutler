@@ -112,9 +112,7 @@ function StopwatchPage() {
       <Card className="p-6">
         <div className="space-y-6">
           <div className="text-center">
-            <div className="mb-2 text-sm text-muted-foreground">
-              Total Time
-            </div>
+            <div className="mb-2 text-sm text-muted-foreground">Total Time</div>
             <div className="inline-block rounded-lg bg-muted px-8 py-4 text-5xl font-bold tabular-nums md:text-6xl">
               {formatTime(totalTime)}
             </div>
@@ -135,12 +133,7 @@ function StopwatchPage() {
               </Button>
             )}
 
-            <Button
-              onClick={recordLap}
-              variant="secondary"
-              size="lg"
-              disabled={!isRunning}
-            >
+            <Button onClick={recordLap} variant="secondary" size="lg" disabled={!isRunning}>
               Lap
             </Button>
 
@@ -178,9 +171,7 @@ function StopwatchPage() {
                 <div className="mt-2 rounded bg-muted/30 px-3 py-2 text-sm">
                   <div className="flex justify-between">
                     <span>Average</span>
-                    <span className="font-mono tabular-nums">
-                      {formatTime(stats.average)}
-                    </span>
+                    <span className="font-mono tabular-nums">{formatTime(stats.average)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Best</span>
