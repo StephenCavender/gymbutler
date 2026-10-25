@@ -1,6 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-import { authComponent } from "./auth";
+import { getUserId, requireUserId } from "./auth";
 
 export const log = mutation({
   args: {
@@ -14,13 +14,10 @@ export const log = mutation({
     ),
   },
   handler: async (ctx, args) => {
-    const authUser = await authComponent.getAuthUser(ctx);
-    if (!authUser || !authUser.userId) {
-      throw new Error("Not authenticated");
-    }
+    const userId = await requireUserId(ctx);
 
     const id = await ctx.db.insert("percentagesEntry", {
-      userId: authUser.userId,
+      userId,
       weight: args.weight,
       unit: args.unit,
       results: args.results,
@@ -34,8 +31,7 @@ export const log = mutation({
 export const getRecent = query({
   args: { limit: v.optional(v.number()) },
   handler: async (ctx, args) => {
-    const authUser = await authComponent.getAuthUser(ctx);
-    const userId = authUser?.userId;
+    const userId = await getUserId(ctx);
     if (!userId) {
       return [];
     }
