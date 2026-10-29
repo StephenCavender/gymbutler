@@ -1,0 +1,2 @@
+[tools]
+vercel = { version = "latest", allow_builds = ["esbuild"], trust_policy_excludes = ["undici"] }
