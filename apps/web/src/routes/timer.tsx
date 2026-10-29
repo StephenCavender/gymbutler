@@ -24,13 +24,11 @@ import {
   start,
 } from "@/lib/clock";
 import { timerSessionLog } from "@/lib/session-log";
-import { durationStats, formatDuration } from "@/lib/time";
+import { durationStats, formatDuration, formatStopwatch } from "@/lib/time";
 
 export const Route = createFileRoute("/timer")({
   component: TimerPage,
 });
-
-const wholeSeconds = (ms: number) => Math.round(ms / 1000);
 
 function TimerPage() {
   const [hours, setHours] = useState(0);
@@ -41,7 +39,7 @@ function TimerPage() {
   const [clock, setClock] = useState(newClock);
   const [logged, setLogged] = useState(false);
   const running = isRunning(clock);
-  const now = useNow(running ? 200 : null);
+  const now = useNow(running ? 31 : null);
   const logSession = useSessionLogger(api.timer.log);
 
   const { isAuthenticated } = useConvexAuth();
@@ -59,7 +57,7 @@ function TimerPage() {
   const started = running || elapsedMs(clock, now) > 0;
   const remaining = remainingMs(clock, targetMs, now);
   const roundMs = splits(clock);
-  const stats = durationStats(roundMs.map(wholeSeconds));
+  const stats = durationStats(roundMs.map((ms) => ms / 1000));
 
   const reset = () => {
     if (!logged) logSession(timerSessionLog(clock, targetMs, Date.now()));
@@ -118,16 +116,15 @@ function TimerPage() {
           <div className="text-center">
             <div
               role="timer"
-              className={`inline-block rounded-lg px-8 py-4 text-6xl font-bold tabular-nums ${
+              className={`inline-block rounded-lg px-8 py-4 text-5xl font-bold tabular-nums md:text-6xl ${
                 started && remaining === 0 ? "bg-destructive/20 text-destructive" : "bg-muted"
               }`}
             >
-              {formatDuration(Math.ceil(remaining / 1000))}
+              {formatStopwatch(remaining / 1000)}
             </div>
             {running && (
               <p className="mt-2 text-sm text-muted-foreground">
-                Round {roundMs.length + 1}:{" "}
-                {formatDuration(Math.floor(currentSplitMs(clock, now) / 1000))}
+                Round {roundMs.length + 1}: {formatStopwatch(currentSplitMs(clock, now) / 1000)}
               </p>
             )}
           </div>
@@ -178,9 +175,7 @@ function TimerPage() {
                     className="flex justify-between rounded bg-muted/50 px-3 py-2 text-sm"
                   >
                     <span>Round {i + 1}</span>
-                    <span className="font-mono tabular-nums">
-                      {formatDuration(wholeSeconds(ms))}
-                    </span>
+                    <span className="font-mono tabular-nums">{formatStopwatch(ms / 1000)}</span>
                   </div>
                 ))}
               </div>
@@ -189,17 +184,15 @@ function TimerPage() {
                 <div className="mt-2 rounded bg-muted/30 px-3 py-2 text-sm">
                   <div className="flex justify-between">
                     <span>Average</span>
-                    <span className="font-mono tabular-nums">
-                      {formatDuration(Math.round(stats.average))}
-                    </span>
+                    <span className="font-mono tabular-nums">{formatStopwatch(stats.average)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Best</span>
-                    <span className="font-mono tabular-nums">{formatDuration(stats.best)}</span>
+                    <span className="font-mono tabular-nums">{formatStopwatch(stats.best)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Worst</span>
-                    <span className="font-mono tabular-nums">{formatDuration(stats.worst)}</span>
+                    <span className="font-mono tabular-nums">{formatStopwatch(stats.worst)}</span>
                   </div>
                 </div>
               )}

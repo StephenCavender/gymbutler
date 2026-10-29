@@ -14,7 +14,7 @@ export function UnitToggle({
 }) {
   return (
     <FieldGroup label={label}>
-      <div className="flex rounded-md border">
+      <div className="flex overflow-hidden rounded-md border">
         {(["kg", "lbs"] as const).map((unit) => (
           <button
             key={unit}

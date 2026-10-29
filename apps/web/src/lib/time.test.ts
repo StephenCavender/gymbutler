@@ -25,6 +25,15 @@ describe("formatStopwatch", () => {
     expect(formatStopwatch(seconds)).toBe(expected);
   });
 
+  // Floating-point: 0.29 % 1 * 100 is 28.999…
+  it.each([
+    [0.29, "0:00.29"],
+    [1.13, "0:01.13"],
+    [59.57, "0:59.57"],
+  ])("shows exact hundredths for %d", (seconds, expected) => {
+    expect(formatStopwatch(seconds)).toBe(expected);
+  });
+
   it("truncates rather than rounds hundredths", () => {
     expect(formatStopwatch(1.999)).toBe("0:01.99");
   });

@@ -10,10 +10,12 @@ export function formatDuration(totalSeconds: number): string {
 
 /** Fractional seconds as `m:ss.cc`, or `h:mm:ss.cc` once an hour is reached. */
 export function formatStopwatch(totalSeconds: number): string {
-  const h = Math.floor(totalSeconds / 3600);
-  const m = Math.floor((totalSeconds % 3600) / 60);
-  const s = Math.floor(totalSeconds % 60);
-  const cs = Math.floor((totalSeconds % 1) * 100);
+  // Whole hundredths first; the epsilon absorbs float error (0.29 * 100 = 28.999…).
+  const total = Math.floor(totalSeconds * 100 + 1e-6);
+  const cs = total % 100;
+  const s = Math.floor(total / 100) % 60;
+  const m = Math.floor(total / 6000) % 60;
+  const h = Math.floor(total / 360000);
   return h > 0 ? `${h}:${pad(m)}:${pad(s)}.${pad(cs)}` : `${m}:${pad(s)}.${pad(cs)}`;
 }
 
