@@ -34,6 +34,8 @@ text(logs.content[0].text);
 
 If the `mcp__chrome_devtools` tools are missing, the project isn't trusted yet or pi needs `/reload`: tell the user rather than working around it.
 
+After `navigate_page`, call `wait_for` with text you expect before anything else: a freshly started dev server can reload the page and leave the next call hanging. If a call times out after 60s, the server is stuck: run `pgrep -f '[c]hrome-devtools-mcp' | xargs -r kill` (the bracket keeps it from matching your own shell) and retry; pi reconnects on the next call.
+
 ## 3. Check what changed
 
 Exercise the change itself, then the things this app makes easy to miss:

@@ -15,17 +15,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
       {
-        title: "gymbutler",
+        title: "GymButler",
       },
       {
         name: "description",
-        content: "gymbutler is a web application",
-      },
-    ],
-    links: [
-      {
-        rel: "icon",
-        href: "/favicon.ico",
+        content: "Weightlifting percentage tables, at a glance.",
       },
     ],
   }),

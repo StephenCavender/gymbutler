@@ -21,9 +21,9 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "gymbutler",
-        short_name: "gymbutler",
-        description: "gymbutler - PWA Application",
+        name: "GymButler",
+        short_name: "GymButler",
+        description: "Weightlifting percentage tables, at a glance.",
         theme_color: "#0c0c0c",
       },
       pwaAssets: { disabled: false, config: true },
